@@ -1,0 +1,3 @@
+/home/vish/solid_texture_synthesis/CMakeFiles/Project.dir
+/home/vish/solid_texture_synthesis/CMakeFiles/edit_cache.dir
+/home/vish/solid_texture_synthesis/CMakeFiles/rebuild_cache.dir
