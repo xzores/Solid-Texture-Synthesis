@@ -8,7 +8,8 @@
 #include "utils.h"
 #include "bunny.h"
 
-#define STB_IMAGE_IMPLEMENTATION 
+#define STBI_NO_SIMD
+#define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
 #include <glm/vec3.hpp> // glm::vec3
@@ -49,6 +50,9 @@ void setupProjectionTransformation(unsigned int &);
 glm::vec3 getTrackBallVector(double x, double y);
 
 GLuint nVertices;
+unsigned int texture;
+// int size;
+int width, height, nrChannels;
 
 int main(int, char**)
 {
@@ -125,6 +129,9 @@ int main(int, char**)
             oldY = currentY;
         }
 
+        // bind Texture
+        glBindTexture(GL_TEXTURE_2D, texture);
+
         // Start the Dear ImGui frame
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
@@ -185,6 +192,13 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO)
         std::cout << "aNormal found at location " << vNormal_attrib << std::endl;
     }
 
+     int vTexture_attrib = glGetAttribLocation(program, "aTexCoord");
+    if(vTexture_attrib == -1) {
+        std::cout << "Could not bind location: aTexCoord\n" ;
+    }else{
+        std::cout << "aTexCoord found at location " << vTexture_attrib << std::endl;
+    }
+
     //Shape data
     ObjectData  bd;
     VertexData *vd = parseFrom("./ply/bunnyN.ply");
@@ -210,6 +224,17 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO)
         vertex_normals[i] = normals[i];
     }
 
+    GLfloat *vertex_textures = new GLfloat[bd.totalVertices*2];
+
+    for(int i=0; i<bd.totalVertices*2; i+=6) {
+        vertex_textures[i] = 0.0f;
+        vertex_textures[i+1] = 0.0f;
+        vertex_textures[i+2] = 1.0f;
+        vertex_textures[i+3] = 0.0f;
+        vertex_textures[i+4] = 0.0f;
+        vertex_textures[i+4] = 1.0f;
+    }
+
     //Note: In order to avoid generating an index array for triangles first and then expanding the coordinate array for triangles,
     // You can directly generate coordinates for successive triangles in two nested for loops to scan over the surface.
 
@@ -233,40 +258,45 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO)
     glEnableVertexAttribArray(vNormal_attrib);
     glVertexAttribPointer(vNormal_attrib, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-  
+    GLuint texture_VBO;
+    glGenBuffers(1, &texture_VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, texture_VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*bd.totalVertices*2, vertex_textures, GL_STATIC_DRAW);
+    glEnableVertexAttribArray(vTexture_attrib);
+    glVertexAttribPointer(vTexture_attrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
     stbi_set_flip_vertically_on_load(true);
 
-	 unsigned int texture;
-	 glGenTextures(1, &texture);
-     glActiveTexture(GL_TEXTURE0);
-	 glBindTexture(GL_TEXTURE_2D, texture);
-	 //set the texture wrapping/filtering options (on the currently bound texture object)
-	 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);	
-	 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
-     //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_MIRRORED_REPEAT);
+	glGenTextures(1, &texture);
+    glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	//set the texture wrapping/filtering options (on the currently bound texture object)
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_MIRRORED_REPEAT);
 
-	 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	 //load and generate the texture
-     int width, height, nrChannels;
-	 unsigned char *data = stbi_load("wall.jpg", &width, &height, &nrChannels, 0);
-	 if (data)
-	 {
-	     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-	     glGenerateMipmap(GL_TEXTURE_2D);
-	 }
-	 else
-	 {
-	     std::cout << "Failed to load texture" << std::endl;
-	 }
-	 stbi_image_free(data);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	//load and generate the texture
+    
+    // int width, height, nrChannels;
+	unsigned char *data = stbi_load("./texture/texture_2.jpg", &width, &height, &nrChannels, 0);
+	if (data)
+	{
+	   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	   glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else
+	{
+	   std::cout << "Failed to load texture" << std::endl;
+	}
+	stbi_image_free(data);
 
     float rotation=0.0f;
     double prevTime=glfwGetTime();
 
     glEnable(GL_DEPTH_TEST);
 
-  
   
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0); //Unbind the VAO to disable changes outside this function.

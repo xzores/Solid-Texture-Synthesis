@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/vish/solid_texture_synthesis
+CMAKE_SOURCE_DIR = /home/vish/Solid-Texture-Synthesis
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/vish/solid_texture_synthesis
+CMAKE_BINARY_DIR = /home/vish/Solid-Texture-Synthesis
 
 # Include any dependencies generated for this target.
 include CMakeFiles/Project.dir/depend.make
@@ -72,114 +72,114 @@ include CMakeFiles/Project.dir/flags.make
 CMakeFiles/Project.dir/src/main.cpp.o: CMakeFiles/Project.dir/flags.make
 CMakeFiles/Project.dir/src/main.cpp.o: src/main.cpp
 CMakeFiles/Project.dir/src/main.cpp.o: CMakeFiles/Project.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/vish/solid_texture_synthesis/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Project.dir/src/main.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Project.dir/src/main.cpp.o -MF CMakeFiles/Project.dir/src/main.cpp.o.d -o CMakeFiles/Project.dir/src/main.cpp.o -c /home/vish/solid_texture_synthesis/src/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/vish/Solid-Texture-Synthesis/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Project.dir/src/main.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Project.dir/src/main.cpp.o -MF CMakeFiles/Project.dir/src/main.cpp.o.d -o CMakeFiles/Project.dir/src/main.cpp.o -c /home/vish/Solid-Texture-Synthesis/src/main.cpp
 
 CMakeFiles/Project.dir/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Project.dir/src/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/vish/solid_texture_synthesis/src/main.cpp > CMakeFiles/Project.dir/src/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/vish/Solid-Texture-Synthesis/src/main.cpp > CMakeFiles/Project.dir/src/main.cpp.i
 
 CMakeFiles/Project.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Project.dir/src/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/vish/solid_texture_synthesis/src/main.cpp -o CMakeFiles/Project.dir/src/main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/vish/Solid-Texture-Synthesis/src/main.cpp -o CMakeFiles/Project.dir/src/main.cpp.s
 
 CMakeFiles/Project.dir/src/utils.cpp.o: CMakeFiles/Project.dir/flags.make
 CMakeFiles/Project.dir/src/utils.cpp.o: src/utils.cpp
 CMakeFiles/Project.dir/src/utils.cpp.o: CMakeFiles/Project.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/vish/solid_texture_synthesis/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Project.dir/src/utils.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Project.dir/src/utils.cpp.o -MF CMakeFiles/Project.dir/src/utils.cpp.o.d -o CMakeFiles/Project.dir/src/utils.cpp.o -c /home/vish/solid_texture_synthesis/src/utils.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/vish/Solid-Texture-Synthesis/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Project.dir/src/utils.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Project.dir/src/utils.cpp.o -MF CMakeFiles/Project.dir/src/utils.cpp.o.d -o CMakeFiles/Project.dir/src/utils.cpp.o -c /home/vish/Solid-Texture-Synthesis/src/utils.cpp
 
 CMakeFiles/Project.dir/src/utils.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Project.dir/src/utils.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/vish/solid_texture_synthesis/src/utils.cpp > CMakeFiles/Project.dir/src/utils.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/vish/Solid-Texture-Synthesis/src/utils.cpp > CMakeFiles/Project.dir/src/utils.cpp.i
 
 CMakeFiles/Project.dir/src/utils.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Project.dir/src/utils.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/vish/solid_texture_synthesis/src/utils.cpp -o CMakeFiles/Project.dir/src/utils.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/vish/Solid-Texture-Synthesis/src/utils.cpp -o CMakeFiles/Project.dir/src/utils.cpp.s
 
 CMakeFiles/Project.dir/depends/imgui/imgui_impl_glfw.cpp.o: CMakeFiles/Project.dir/flags.make
 CMakeFiles/Project.dir/depends/imgui/imgui_impl_glfw.cpp.o: depends/imgui/imgui_impl_glfw.cpp
 CMakeFiles/Project.dir/depends/imgui/imgui_impl_glfw.cpp.o: CMakeFiles/Project.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/vish/solid_texture_synthesis/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Project.dir/depends/imgui/imgui_impl_glfw.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Project.dir/depends/imgui/imgui_impl_glfw.cpp.o -MF CMakeFiles/Project.dir/depends/imgui/imgui_impl_glfw.cpp.o.d -o CMakeFiles/Project.dir/depends/imgui/imgui_impl_glfw.cpp.o -c /home/vish/solid_texture_synthesis/depends/imgui/imgui_impl_glfw.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/vish/Solid-Texture-Synthesis/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Project.dir/depends/imgui/imgui_impl_glfw.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Project.dir/depends/imgui/imgui_impl_glfw.cpp.o -MF CMakeFiles/Project.dir/depends/imgui/imgui_impl_glfw.cpp.o.d -o CMakeFiles/Project.dir/depends/imgui/imgui_impl_glfw.cpp.o -c /home/vish/Solid-Texture-Synthesis/depends/imgui/imgui_impl_glfw.cpp
 
 CMakeFiles/Project.dir/depends/imgui/imgui_impl_glfw.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Project.dir/depends/imgui/imgui_impl_glfw.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/vish/solid_texture_synthesis/depends/imgui/imgui_impl_glfw.cpp > CMakeFiles/Project.dir/depends/imgui/imgui_impl_glfw.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/vish/Solid-Texture-Synthesis/depends/imgui/imgui_impl_glfw.cpp > CMakeFiles/Project.dir/depends/imgui/imgui_impl_glfw.cpp.i
 
 CMakeFiles/Project.dir/depends/imgui/imgui_impl_glfw.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Project.dir/depends/imgui/imgui_impl_glfw.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/vish/solid_texture_synthesis/depends/imgui/imgui_impl_glfw.cpp -o CMakeFiles/Project.dir/depends/imgui/imgui_impl_glfw.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/vish/Solid-Texture-Synthesis/depends/imgui/imgui_impl_glfw.cpp -o CMakeFiles/Project.dir/depends/imgui/imgui_impl_glfw.cpp.s
 
 CMakeFiles/Project.dir/depends/imgui/imgui_impl_opengl3.cpp.o: CMakeFiles/Project.dir/flags.make
 CMakeFiles/Project.dir/depends/imgui/imgui_impl_opengl3.cpp.o: depends/imgui/imgui_impl_opengl3.cpp
 CMakeFiles/Project.dir/depends/imgui/imgui_impl_opengl3.cpp.o: CMakeFiles/Project.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/vish/solid_texture_synthesis/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Project.dir/depends/imgui/imgui_impl_opengl3.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Project.dir/depends/imgui/imgui_impl_opengl3.cpp.o -MF CMakeFiles/Project.dir/depends/imgui/imgui_impl_opengl3.cpp.o.d -o CMakeFiles/Project.dir/depends/imgui/imgui_impl_opengl3.cpp.o -c /home/vish/solid_texture_synthesis/depends/imgui/imgui_impl_opengl3.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/vish/Solid-Texture-Synthesis/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Project.dir/depends/imgui/imgui_impl_opengl3.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Project.dir/depends/imgui/imgui_impl_opengl3.cpp.o -MF CMakeFiles/Project.dir/depends/imgui/imgui_impl_opengl3.cpp.o.d -o CMakeFiles/Project.dir/depends/imgui/imgui_impl_opengl3.cpp.o -c /home/vish/Solid-Texture-Synthesis/depends/imgui/imgui_impl_opengl3.cpp
 
 CMakeFiles/Project.dir/depends/imgui/imgui_impl_opengl3.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Project.dir/depends/imgui/imgui_impl_opengl3.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/vish/solid_texture_synthesis/depends/imgui/imgui_impl_opengl3.cpp > CMakeFiles/Project.dir/depends/imgui/imgui_impl_opengl3.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/vish/Solid-Texture-Synthesis/depends/imgui/imgui_impl_opengl3.cpp > CMakeFiles/Project.dir/depends/imgui/imgui_impl_opengl3.cpp.i
 
 CMakeFiles/Project.dir/depends/imgui/imgui_impl_opengl3.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Project.dir/depends/imgui/imgui_impl_opengl3.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/vish/solid_texture_synthesis/depends/imgui/imgui_impl_opengl3.cpp -o CMakeFiles/Project.dir/depends/imgui/imgui_impl_opengl3.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/vish/Solid-Texture-Synthesis/depends/imgui/imgui_impl_opengl3.cpp -o CMakeFiles/Project.dir/depends/imgui/imgui_impl_opengl3.cpp.s
 
 CMakeFiles/Project.dir/depends/imgui/imgui.cpp.o: CMakeFiles/Project.dir/flags.make
 CMakeFiles/Project.dir/depends/imgui/imgui.cpp.o: depends/imgui/imgui.cpp
 CMakeFiles/Project.dir/depends/imgui/imgui.cpp.o: CMakeFiles/Project.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/vish/solid_texture_synthesis/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Project.dir/depends/imgui/imgui.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Project.dir/depends/imgui/imgui.cpp.o -MF CMakeFiles/Project.dir/depends/imgui/imgui.cpp.o.d -o CMakeFiles/Project.dir/depends/imgui/imgui.cpp.o -c /home/vish/solid_texture_synthesis/depends/imgui/imgui.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/vish/Solid-Texture-Synthesis/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Project.dir/depends/imgui/imgui.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Project.dir/depends/imgui/imgui.cpp.o -MF CMakeFiles/Project.dir/depends/imgui/imgui.cpp.o.d -o CMakeFiles/Project.dir/depends/imgui/imgui.cpp.o -c /home/vish/Solid-Texture-Synthesis/depends/imgui/imgui.cpp
 
 CMakeFiles/Project.dir/depends/imgui/imgui.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Project.dir/depends/imgui/imgui.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/vish/solid_texture_synthesis/depends/imgui/imgui.cpp > CMakeFiles/Project.dir/depends/imgui/imgui.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/vish/Solid-Texture-Synthesis/depends/imgui/imgui.cpp > CMakeFiles/Project.dir/depends/imgui/imgui.cpp.i
 
 CMakeFiles/Project.dir/depends/imgui/imgui.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Project.dir/depends/imgui/imgui.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/vish/solid_texture_synthesis/depends/imgui/imgui.cpp -o CMakeFiles/Project.dir/depends/imgui/imgui.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/vish/Solid-Texture-Synthesis/depends/imgui/imgui.cpp -o CMakeFiles/Project.dir/depends/imgui/imgui.cpp.s
 
 CMakeFiles/Project.dir/depends/imgui/imgui_demo.cpp.o: CMakeFiles/Project.dir/flags.make
 CMakeFiles/Project.dir/depends/imgui/imgui_demo.cpp.o: depends/imgui/imgui_demo.cpp
 CMakeFiles/Project.dir/depends/imgui/imgui_demo.cpp.o: CMakeFiles/Project.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/vish/solid_texture_synthesis/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Project.dir/depends/imgui/imgui_demo.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Project.dir/depends/imgui/imgui_demo.cpp.o -MF CMakeFiles/Project.dir/depends/imgui/imgui_demo.cpp.o.d -o CMakeFiles/Project.dir/depends/imgui/imgui_demo.cpp.o -c /home/vish/solid_texture_synthesis/depends/imgui/imgui_demo.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/vish/Solid-Texture-Synthesis/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Project.dir/depends/imgui/imgui_demo.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Project.dir/depends/imgui/imgui_demo.cpp.o -MF CMakeFiles/Project.dir/depends/imgui/imgui_demo.cpp.o.d -o CMakeFiles/Project.dir/depends/imgui/imgui_demo.cpp.o -c /home/vish/Solid-Texture-Synthesis/depends/imgui/imgui_demo.cpp
 
 CMakeFiles/Project.dir/depends/imgui/imgui_demo.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Project.dir/depends/imgui/imgui_demo.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/vish/solid_texture_synthesis/depends/imgui/imgui_demo.cpp > CMakeFiles/Project.dir/depends/imgui/imgui_demo.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/vish/Solid-Texture-Synthesis/depends/imgui/imgui_demo.cpp > CMakeFiles/Project.dir/depends/imgui/imgui_demo.cpp.i
 
 CMakeFiles/Project.dir/depends/imgui/imgui_demo.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Project.dir/depends/imgui/imgui_demo.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/vish/solid_texture_synthesis/depends/imgui/imgui_demo.cpp -o CMakeFiles/Project.dir/depends/imgui/imgui_demo.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/vish/Solid-Texture-Synthesis/depends/imgui/imgui_demo.cpp -o CMakeFiles/Project.dir/depends/imgui/imgui_demo.cpp.s
 
 CMakeFiles/Project.dir/depends/imgui/imgui_draw.cpp.o: CMakeFiles/Project.dir/flags.make
 CMakeFiles/Project.dir/depends/imgui/imgui_draw.cpp.o: depends/imgui/imgui_draw.cpp
 CMakeFiles/Project.dir/depends/imgui/imgui_draw.cpp.o: CMakeFiles/Project.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/vish/solid_texture_synthesis/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/Project.dir/depends/imgui/imgui_draw.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Project.dir/depends/imgui/imgui_draw.cpp.o -MF CMakeFiles/Project.dir/depends/imgui/imgui_draw.cpp.o.d -o CMakeFiles/Project.dir/depends/imgui/imgui_draw.cpp.o -c /home/vish/solid_texture_synthesis/depends/imgui/imgui_draw.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/vish/Solid-Texture-Synthesis/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/Project.dir/depends/imgui/imgui_draw.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Project.dir/depends/imgui/imgui_draw.cpp.o -MF CMakeFiles/Project.dir/depends/imgui/imgui_draw.cpp.o.d -o CMakeFiles/Project.dir/depends/imgui/imgui_draw.cpp.o -c /home/vish/Solid-Texture-Synthesis/depends/imgui/imgui_draw.cpp
 
 CMakeFiles/Project.dir/depends/imgui/imgui_draw.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Project.dir/depends/imgui/imgui_draw.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/vish/solid_texture_synthesis/depends/imgui/imgui_draw.cpp > CMakeFiles/Project.dir/depends/imgui/imgui_draw.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/vish/Solid-Texture-Synthesis/depends/imgui/imgui_draw.cpp > CMakeFiles/Project.dir/depends/imgui/imgui_draw.cpp.i
 
 CMakeFiles/Project.dir/depends/imgui/imgui_draw.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Project.dir/depends/imgui/imgui_draw.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/vish/solid_texture_synthesis/depends/imgui/imgui_draw.cpp -o CMakeFiles/Project.dir/depends/imgui/imgui_draw.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/vish/Solid-Texture-Synthesis/depends/imgui/imgui_draw.cpp -o CMakeFiles/Project.dir/depends/imgui/imgui_draw.cpp.s
 
 CMakeFiles/Project.dir/depends/imgui/imgui_widgets.cpp.o: CMakeFiles/Project.dir/flags.make
 CMakeFiles/Project.dir/depends/imgui/imgui_widgets.cpp.o: depends/imgui/imgui_widgets.cpp
 CMakeFiles/Project.dir/depends/imgui/imgui_widgets.cpp.o: CMakeFiles/Project.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/vish/solid_texture_synthesis/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/Project.dir/depends/imgui/imgui_widgets.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Project.dir/depends/imgui/imgui_widgets.cpp.o -MF CMakeFiles/Project.dir/depends/imgui/imgui_widgets.cpp.o.d -o CMakeFiles/Project.dir/depends/imgui/imgui_widgets.cpp.o -c /home/vish/solid_texture_synthesis/depends/imgui/imgui_widgets.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/vish/Solid-Texture-Synthesis/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/Project.dir/depends/imgui/imgui_widgets.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Project.dir/depends/imgui/imgui_widgets.cpp.o -MF CMakeFiles/Project.dir/depends/imgui/imgui_widgets.cpp.o.d -o CMakeFiles/Project.dir/depends/imgui/imgui_widgets.cpp.o -c /home/vish/Solid-Texture-Synthesis/depends/imgui/imgui_widgets.cpp
 
 CMakeFiles/Project.dir/depends/imgui/imgui_widgets.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Project.dir/depends/imgui/imgui_widgets.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/vish/solid_texture_synthesis/depends/imgui/imgui_widgets.cpp > CMakeFiles/Project.dir/depends/imgui/imgui_widgets.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/vish/Solid-Texture-Synthesis/depends/imgui/imgui_widgets.cpp > CMakeFiles/Project.dir/depends/imgui/imgui_widgets.cpp.i
 
 CMakeFiles/Project.dir/depends/imgui/imgui_widgets.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Project.dir/depends/imgui/imgui_widgets.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/vish/solid_texture_synthesis/depends/imgui/imgui_widgets.cpp -o CMakeFiles/Project.dir/depends/imgui/imgui_widgets.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/vish/Solid-Texture-Synthesis/depends/imgui/imgui_widgets.cpp -o CMakeFiles/Project.dir/depends/imgui/imgui_widgets.cpp.s
 
 # Object files for target Project
 Project_OBJECTS = \
@@ -209,7 +209,7 @@ Project: /usr/lib/x86_64-linux-gnu/libGLU.so
 Project: /usr/lib/x86_64-linux-gnu/libglfw.so.3.3
 Project: /usr/lib/x86_64-linux-gnu/libGLEW.so
 Project: CMakeFiles/Project.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/vish/solid_texture_synthesis/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable Project"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/vish/Solid-Texture-Synthesis/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable Project"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Project.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -221,6 +221,6 @@ CMakeFiles/Project.dir/clean:
 .PHONY : CMakeFiles/Project.dir/clean
 
 CMakeFiles/Project.dir/depend:
-	cd /home/vish/solid_texture_synthesis && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/vish/solid_texture_synthesis /home/vish/solid_texture_synthesis /home/vish/solid_texture_synthesis /home/vish/solid_texture_synthesis /home/vish/solid_texture_synthesis/CMakeFiles/Project.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/vish/Solid-Texture-Synthesis && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/vish/Solid-Texture-Synthesis /home/vish/Solid-Texture-Synthesis /home/vish/Solid-Texture-Synthesis /home/vish/Solid-Texture-Synthesis /home/vish/Solid-Texture-Synthesis/CMakeFiles/Project.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/Project.dir/depend
 

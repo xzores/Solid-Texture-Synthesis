@@ -1,8 +1,8 @@
 CMakeFiles/Project.dir/depends/imgui/imgui_demo.cpp.o: \
- /home/vish/solid_texture_synthesis/depends/imgui/imgui_demo.cpp \
+ /home/vish/Solid-Texture-Synthesis/depends/imgui/imgui_demo.cpp \
  /usr/include/stdc-predef.h \
- /home/vish/solid_texture_synthesis/depends/imgui/imgui.h \
- /home/vish/solid_texture_synthesis/depends/imgui/imconfig.h \
+ /home/vish/Solid-Texture-Synthesis/depends/imgui/imgui.h \
+ /home/vish/Solid-Texture-Synthesis/depends/imgui/imconfig.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/float.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdarg.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h /usr/include/string.h \

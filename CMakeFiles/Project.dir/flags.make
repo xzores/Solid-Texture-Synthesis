@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/vish/solid_texture_synthesis/src -I/home/vish/solid_texture_synthesis/depends/imgui
+CXX_INCLUDES = -I/home/vish/Solid-Texture-Synthesis/src -I/home/vish/Solid-Texture-Synthesis/depends/imgui -I/home/vish/Solid-Texture-Synthesis/stb
 
 CXX_FLAGS = -g
 

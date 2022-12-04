@@ -1,9 +1,9 @@
 CMakeFiles/Project.dir/src/utils.cpp.o: \
- /home/vish/solid_texture_synthesis/src/utils.cpp \
+ /home/vish/Solid-Texture-Synthesis/src/utils.cpp \
  /usr/include/stdc-predef.h \
- /home/vish/solid_texture_synthesis/src/utils.h \
- /home/vish/solid_texture_synthesis/depends/imgui/imgui.h \
- /home/vish/solid_texture_synthesis/depends/imgui/imconfig.h \
+ /home/vish/Solid-Texture-Synthesis/src/utils.h \
+ /home/vish/Solid-Texture-Synthesis/depends/imgui/imgui.h \
+ /home/vish/Solid-Texture-Synthesis/depends/imgui/imconfig.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/float.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdarg.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h /usr/include/string.h \
@@ -18,8 +18,8 @@ CMakeFiles/Project.dir/src/utils.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
  /usr/include/strings.h /usr/include/assert.h \
- /home/vish/solid_texture_synthesis/depends/imgui/imgui_impl_glfw.h \
- /home/vish/solid_texture_synthesis/depends/imgui/imgui_impl_opengl3.h \
+ /home/vish/Solid-Texture-Synthesis/depends/imgui/imgui_impl_glfw.h \
+ /home/vish/Solid-Texture-Synthesis/depends/imgui/imgui_impl_opengl3.h \
  /usr/include/glm/vec3.hpp /usr/include/glm/ext/vector_bool3.hpp \
  /usr/include/glm/detail/type_vec3.hpp \
  /usr/include/glm/detail/qualifier.hpp /usr/include/glm/detail/setup.hpp \

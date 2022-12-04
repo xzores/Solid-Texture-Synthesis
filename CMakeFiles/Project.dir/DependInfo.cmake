@@ -8,14 +8,14 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/vish/solid_texture_synthesis/depends/imgui/imgui.cpp" "CMakeFiles/Project.dir/depends/imgui/imgui.cpp.o" "gcc" "CMakeFiles/Project.dir/depends/imgui/imgui.cpp.o.d"
-  "/home/vish/solid_texture_synthesis/depends/imgui/imgui_demo.cpp" "CMakeFiles/Project.dir/depends/imgui/imgui_demo.cpp.o" "gcc" "CMakeFiles/Project.dir/depends/imgui/imgui_demo.cpp.o.d"
-  "/home/vish/solid_texture_synthesis/depends/imgui/imgui_draw.cpp" "CMakeFiles/Project.dir/depends/imgui/imgui_draw.cpp.o" "gcc" "CMakeFiles/Project.dir/depends/imgui/imgui_draw.cpp.o.d"
-  "/home/vish/solid_texture_synthesis/depends/imgui/imgui_impl_glfw.cpp" "CMakeFiles/Project.dir/depends/imgui/imgui_impl_glfw.cpp.o" "gcc" "CMakeFiles/Project.dir/depends/imgui/imgui_impl_glfw.cpp.o.d"
-  "/home/vish/solid_texture_synthesis/depends/imgui/imgui_impl_opengl3.cpp" "CMakeFiles/Project.dir/depends/imgui/imgui_impl_opengl3.cpp.o" "gcc" "CMakeFiles/Project.dir/depends/imgui/imgui_impl_opengl3.cpp.o.d"
-  "/home/vish/solid_texture_synthesis/depends/imgui/imgui_widgets.cpp" "CMakeFiles/Project.dir/depends/imgui/imgui_widgets.cpp.o" "gcc" "CMakeFiles/Project.dir/depends/imgui/imgui_widgets.cpp.o.d"
-  "/home/vish/solid_texture_synthesis/src/main.cpp" "CMakeFiles/Project.dir/src/main.cpp.o" "gcc" "CMakeFiles/Project.dir/src/main.cpp.o.d"
-  "/home/vish/solid_texture_synthesis/src/utils.cpp" "CMakeFiles/Project.dir/src/utils.cpp.o" "gcc" "CMakeFiles/Project.dir/src/utils.cpp.o.d"
+  "/home/vish/Solid-Texture-Synthesis/depends/imgui/imgui.cpp" "CMakeFiles/Project.dir/depends/imgui/imgui.cpp.o" "gcc" "CMakeFiles/Project.dir/depends/imgui/imgui.cpp.o.d"
+  "/home/vish/Solid-Texture-Synthesis/depends/imgui/imgui_demo.cpp" "CMakeFiles/Project.dir/depends/imgui/imgui_demo.cpp.o" "gcc" "CMakeFiles/Project.dir/depends/imgui/imgui_demo.cpp.o.d"
+  "/home/vish/Solid-Texture-Synthesis/depends/imgui/imgui_draw.cpp" "CMakeFiles/Project.dir/depends/imgui/imgui_draw.cpp.o" "gcc" "CMakeFiles/Project.dir/depends/imgui/imgui_draw.cpp.o.d"
+  "/home/vish/Solid-Texture-Synthesis/depends/imgui/imgui_impl_glfw.cpp" "CMakeFiles/Project.dir/depends/imgui/imgui_impl_glfw.cpp.o" "gcc" "CMakeFiles/Project.dir/depends/imgui/imgui_impl_glfw.cpp.o.d"
+  "/home/vish/Solid-Texture-Synthesis/depends/imgui/imgui_impl_opengl3.cpp" "CMakeFiles/Project.dir/depends/imgui/imgui_impl_opengl3.cpp.o" "gcc" "CMakeFiles/Project.dir/depends/imgui/imgui_impl_opengl3.cpp.o.d"
+  "/home/vish/Solid-Texture-Synthesis/depends/imgui/imgui_widgets.cpp" "CMakeFiles/Project.dir/depends/imgui/imgui_widgets.cpp.o" "gcc" "CMakeFiles/Project.dir/depends/imgui/imgui_widgets.cpp.o.d"
+  "/home/vish/Solid-Texture-Synthesis/src/main.cpp" "CMakeFiles/Project.dir/src/main.cpp.o" "gcc" "CMakeFiles/Project.dir/src/main.cpp.o.d"
+  "/home/vish/Solid-Texture-Synthesis/src/utils.cpp" "CMakeFiles/Project.dir/src/utils.cpp.o" "gcc" "CMakeFiles/Project.dir/src/utils.cpp.o.d"
   )
 
 # Targets to which this target links.
