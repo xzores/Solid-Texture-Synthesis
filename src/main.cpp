@@ -3,10 +3,26 @@
 /*References
   Trackball: http://en.wikibooks.org/wiki/OpenGL_Programming/Modern_OpenGL_Tutorial_Arcball
 */
-
+#include <stdio.h>
 #include <iostream>
 #include "utils.h"
 #include "bunny.h"
+
+#define STB_IMAGE_IMPLEMENTATION 
+#include <stb_image.h>
+
+#include <glm/vec3.hpp> // glm::vec3
+#include <glm/vec4.hpp> // glm::vec4
+#include <glm/mat4x4.hpp> // glm::mat4
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include<glm/gtx/rotate_vector.hpp>
+#include<glm/gtx/vector_angle.hpp>
+
+
+#include <imgui.h>
+#include <imgui_impl_glfw.h>
+#include <imgui_impl_opengl3.h>
 
 #define  GLM_FORCE_RADIANS
 #define  GLM_ENABLE_EXPERIMENTAL
@@ -217,6 +233,41 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO)
     glEnableVertexAttribArray(vNormal_attrib);
     glVertexAttribPointer(vNormal_attrib, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
+  
+    stbi_set_flip_vertically_on_load(true);
+
+	 unsigned int texture;
+	 glGenTextures(1, &texture);
+     glActiveTexture(GL_TEXTURE0);
+	 glBindTexture(GL_TEXTURE_2D, texture);
+	 //set the texture wrapping/filtering options (on the currently bound texture object)
+	 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);	
+	 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+     //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_MIRRORED_REPEAT);
+
+	 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	 //load and generate the texture
+     int width, height, nrChannels;
+	 unsigned char *data = stbi_load("wall.jpg", &width, &height, &nrChannels, 0);
+	 if (data)
+	 {
+	     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	     glGenerateMipmap(GL_TEXTURE_2D);
+	 }
+	 else
+	 {
+	     std::cout << "Failed to load texture" << std::endl;
+	 }
+	 stbi_image_free(data);
+
+    float rotation=0.0f;
+    double prevTime=glfwGetTime();
+
+    glEnable(GL_DEPTH_TEST);
+
+  
+  
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0); //Unbind the VAO to disable changes outside this function.
 }
