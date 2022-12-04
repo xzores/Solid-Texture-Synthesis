@@ -19,7 +19,7 @@
 //Globals
 int screen_width = 640, screen_height=640;
 GLint vModel_uniform, vView_uniform, vProjection_uniform;
-GLint vColor_uniform;
+GLint lpos_world_uniform, eye_normal_uniform;
 glm::mat4 modelT, viewT, projectionT;//The model, view and projection transformations
 
 double oldX, oldY, currentX, currentY;
@@ -40,15 +40,20 @@ int main(int, char**)
     GLFWwindow *window = setupWindow(screen_width, screen_height);
     ImGuiIO& io = ImGui::GetIO(); // Create IO object
 
-    ImVec4 clearColor = ImVec4(1.0f, 1.0f, 1.0f, 1.00f);
+    ImVec4 clearColor = ImVec4(0.3f, 0.3f, 0.3f, 1.00f);
 
     unsigned int shaderProgram = createProgram("./shaders/vshader.vs", "./shaders/fshader.fs");
 
-    //Get handle to color variable in shader
-    vColor_uniform = glGetUniformLocation(shaderProgram, "vColor");
-    if(vColor_uniform == -1){
-        fprintf(stderr, "Could not bind location: vColor\n");
-        exit(0);
+    //Get handle to light position variable in shader
+    lpos_world_uniform = glGetUniformLocation(shaderProgram, "lpos_world");
+    if(lpos_world_uniform == -1){
+        fprintf(stderr, "Could not bind location: lpos_world\n");
+    }
+
+    //Get handle to eye normal variable in shader
+    eye_normal_uniform = glGetUniformLocation(shaderProgram, "eye_normal");
+    if(eye_normal_uniform == -1){
+        fprintf(stderr, "Could not bind location: eye_normal\n");
     }
 
     glUseProgram(shaderProgram);
@@ -126,8 +131,10 @@ int main(int, char**)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         glBindVertexArray(VAO); 
+
+        glUniform3f(lpos_world_uniform, -50.0, 100.0, 0.0);
+        glUniform3f(eye_normal_uniform, 40.0, -40.0, 40.0);
         
-        glUniform3f(vColor_uniform, 0.5, 0.5, 0.5);
         glDrawArrays(GL_TRIANGLES, 0, nVertices);
         // glUniform3f(vColor_uniform, 0.0, 0.0, 0.0);
         // glDrawArrays(GL_LINE_STRIP, 0, nVertices);
@@ -155,6 +162,13 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO)
         exit(0);
     }
 
+    int vNormal_attrib = glGetAttribLocation(program, "vertex_norm");
+    if(vNormal_attrib == -1) {
+        std::cout << "Could not bind location: vertex_norm\n" ;
+    }else{
+        std::cout << "aNormal found at location " << vNormal_attrib << std::endl;
+    }
+
     //Shape data
     ObjectData  bd;
     VertexData *vd = parseFrom("./ply/bunnyN.ply");
@@ -174,6 +188,12 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO)
         shape_vertices[i] = expanded_vertices[i]*1.5;
     }
 
+    GLfloat *vertex_normals = new GLfloat[bd.totalVertices*3];
+
+    for(int i=0; i<bd.totalVertices*3; i++) {
+        vertex_normals[i] = normals[i];
+    }
+
     //Note: In order to avoid generating an index array for triangles first and then expanding the coordinate array for triangles,
     // You can directly generate coordinates for successive triangles in two nested for loops to scan over the surface.
 
@@ -190,6 +210,12 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO)
     glVertexAttribPointer(vVertex_attrib, 3, GL_FLOAT, GL_FALSE, 0, 0);
     delete []shape_vertices;
 
+    GLuint normal_VBO;
+    glGenBuffers(1, &normal_VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, normal_VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*bd.totalVertices*3, vertex_normals, GL_STATIC_DRAW);
+    glEnableVertexAttribArray(vNormal_attrib);
+    glVertexAttribPointer(vNormal_attrib, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0); //Unbind the VAO to disable changes outside this function.
