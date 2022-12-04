@@ -34,5 +34,5 @@ vec3 Is = ks*Ls*max(pow(dot(r, v), spec_exp),0);
 vec3 fColor = Ia + Id + Is;
 
 void main(void) {
-        outColor = 0.2*vec4(fColor, 1.0) + 0.8*texture(texture1, TexCoord);
+        outColor = 0.3*vec4(fColor, 1.0) + 0.7*texture(texture1, TexCoord);
 }

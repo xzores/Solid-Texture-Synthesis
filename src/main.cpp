@@ -226,13 +226,13 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO)
 
     GLfloat *vertex_textures = new GLfloat[bd.totalVertices*2];
 
-    for(int i=0; i<bd.totalVertices*2; i+=6) {
-        vertex_textures[i] = 0.0f;
-        vertex_textures[i+1] = 0.0f;
-        vertex_textures[i+2] = 1.0f;
-        vertex_textures[i+3] = 0.0f;
-        vertex_textures[i+4] = 0.0f;
-        vertex_textures[i+4] = 1.0f;
+    for(int i=0; i<bd.totalVertices*2; i+=2) {
+        GLfloat u = 0.5f + atan2(shape_vertices[i], shape_vertices[i+2]) / (2 * 3.14);
+        GLfloat v = 0.5f - asin(shape_vertices[i+1] / 100.0) / 3.14;
+        vertex_textures[i] = u;
+        vertex_textures[i+1] = v;
+        // vertex_textures[i] = shape_vertices[i]*0.1, (shape_vertices[i+1]+shape_vertices[i+2])*0.1;
+        // vertex_textures[i+1] = shape_vertices[i+3]*0.1, (shape_vertices[i+4]+shape_vertices[i+5])*0.1;
     }
 
     //Note: In order to avoid generating an index array for triangles first and then expanding the coordinate array for triangles,
@@ -248,7 +248,7 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO)
     glBindBuffer(GL_ARRAY_BUFFER, vertex_VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*bd.totalVertices*3, shape_vertices, GL_STATIC_DRAW);
     glEnableVertexAttribArray(vVertex_attrib);
-    glVertexAttribPointer(vVertex_attrib, 3, GL_FLOAT, GL_FALSE, 0, 0);
+    glVertexAttribPointer(vVertex_attrib, 3, GL_FLOAT, GL_FALSE, 00, 0);
     delete []shape_vertices;
 
     GLuint normal_VBO;
@@ -270,32 +270,32 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO)
 	glGenTextures(1, &texture);
     glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture);
-	//set the texture wrapping/filtering options (on the currently bound texture object)
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_MIRRORED_REPEAT);
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	//load and generate the texture
-    
-    // int width, height, nrChannels;
-	unsigned char *data = stbi_load("./texture/texture_2.jpg", &width, &height, &nrChannels, 0);
+	unsigned char *data = stbi_load("./texture/texture_3.jpg", &width, &height, &nrChannels, 0);
 	if (data)
 	{
 	   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-	   glGenerateMipmap(GL_TEXTURE_2D);
 	}
 	else
 	{
 	   std::cout << "Failed to load texture" << std::endl;
 	}
+
 	stbi_image_free(data);
 
-    float rotation=0.0f;
-    double prevTime=glfwGetTime();
+    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 
-    glEnable(GL_DEPTH_TEST);
+    //Adding the texture generation for sphere map mode
+    glEnable(GL_TEXTURE_GEN_S);
+    glEnable(GL_TEXTURE_GEN_T);
+    glEnable(GL_TEXTURE_GEN_R);
+    glEnable(GL_TEXTURE_GEN_Q);
+
+    glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+    glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+    glTexGeni(GL_R, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+    glTexGeni(GL_Q, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
 
   
     glBindBuffer(GL_ARRAY_BUFFER, 0);
