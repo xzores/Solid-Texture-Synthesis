@@ -21,12 +21,18 @@ set(SOURCES
 	"depends/imgui/imgui_draw.cpp"
 	"depends/imgui/imgui_widgets.cpp"
 	)
+	
+set(HEADERS 
+         "stb/stb_image.h"
+         "stb/stb_image_write.h"
+        )
 
 add_executable(${TARGET} ${SOURCES})
 
 target_include_directories(${TARGET} PRIVATE
 	${PROJECT_SOURCE_DIR}/src
 	${PROJECT_SOURCE_DIR}/depends/imgui
+	${CMAKE_SOURCE_DIR}/stb
 	${GLFW_INCLUDE_DIRS}
 	${OPENGL_INCLUDE_DIR}
 	${GLM_INCLUDE_DIRS/../include}
