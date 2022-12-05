@@ -43,6 +43,7 @@ glm::mat4 modelT, viewT, projectionT;//The model, view and projection transforma
 double oldX, oldY, currentX, currentY;
 bool isDragging=false;
 
+void rasterizer();
 void createMeshObject(unsigned int &, unsigned int &);
 
 void setupModelTransformation(unsigned int &);
@@ -57,8 +58,13 @@ int width, height, nrChannels;
 
 int main(int, char**)
 {   
-    // texture_viewer();
-    // stocastic_texture_synthesis();
+    const char* texture_file = "./texture/texture_2.jpg"; 
+    stocastic_texture_synthesis(texture_file);
+    rasterizer();
+    return 0;
+}
+
+void rasterizer(){
     // Setup window
     GLFWwindow *window = setupWindow(screen_width, screen_height);
     ImGuiIO& io = ImGui::GetIO(); // Create IO object
@@ -76,7 +82,7 @@ int main(int, char**)
     //Get handle to eye normal variable in shader
     eye_normal_uniform = glGetUniformLocation(shaderProgram, "eye_normal");
     if(eye_normal_uniform == -1){
-        fprintf(stderr, "Could not bind location: eye_normal\n");
+        fprintf(stderr, "Could not bind location: eye_normal. Specular Lighting Switched Off.\n");
     }
 
     glUseProgram(shaderProgram);
@@ -173,8 +179,6 @@ int main(int, char**)
 
     // Cleanup
     cleanup(window);
-
-    return 0;
 }
 
 void createMeshObject(unsigned int &program, unsigned int &shape_VAO)
@@ -232,8 +236,8 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO)
     for(int i=0; i<bd.totalVertices*2; i+=2) {
         GLfloat u = 0.5f + atan2(shape_vertices[i], shape_vertices[i+2]) / (2 * 3.14);
         GLfloat v = 0.5f + asin(shape_vertices[i+1] / 100.0) / 3.14;
-        vertex_textures[i] = cos(2*3.14*i/bd.totalVertices);
-        vertex_textures[i+1] = sin(2*3.14*i/bd.totalVertices);
+        vertex_textures[i] = 30*cos(2*3.14*i/bd.totalVertices);
+        vertex_textures[i+1] = 30*sin(2*3.14*i/bd.totalVertices);
         // vertex_textures[i] = shape_vertices[i]*0.1, (shape_vertices[i+1]+shape_vertices[i+2])*0.1;
         // vertex_textures[i+1] = shape_vertices[i+3]*0.1, (shape_vertices[i+4]+shape_vertices[i+5])*0.1;
     }
@@ -274,7 +278,7 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO)
     glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture);
 
-	unsigned char *data = stbi_load("./texture/texture_5.jpg", &width, &height, &nrChannels, 0);
+	unsigned char *data = stbi_load("./texture/output.jpg", &width, &height, &nrChannels, 0);
 	if (data)
 	{
 	   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
