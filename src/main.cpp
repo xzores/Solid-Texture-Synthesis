@@ -7,6 +7,7 @@
 #include <iostream>
 #include "utils.h"
 #include "bunny.h"
+#include "texture.h"
 
 #define STBI_NO_SIMD
 #define STB_IMAGE_IMPLEMENTATION
@@ -55,7 +56,9 @@ unsigned int texture;
 int width, height, nrChannels;
 
 int main(int, char**)
-{
+{   
+    // texture_viewer();
+    // stocastic_texture_synthesis();
     // Setup window
     GLFWwindow *window = setupWindow(screen_width, screen_height);
     ImGuiIO& io = ImGui::GetIO(); // Create IO object
@@ -228,9 +231,9 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO)
 
     for(int i=0; i<bd.totalVertices*2; i+=2) {
         GLfloat u = 0.5f + atan2(shape_vertices[i], shape_vertices[i+2]) / (2 * 3.14);
-        GLfloat v = 0.5f - asin(shape_vertices[i+1] / 100.0) / 3.14;
-        vertex_textures[i] = u;
-        vertex_textures[i+1] = v;
+        GLfloat v = 0.5f + asin(shape_vertices[i+1] / 100.0) / 3.14;
+        vertex_textures[i] = cos(2*3.14*i/bd.totalVertices);
+        vertex_textures[i+1] = sin(2*3.14*i/bd.totalVertices);
         // vertex_textures[i] = shape_vertices[i]*0.1, (shape_vertices[i+1]+shape_vertices[i+2])*0.1;
         // vertex_textures[i+1] = shape_vertices[i+3]*0.1, (shape_vertices[i+4]+shape_vertices[i+5])*0.1;
     }
@@ -271,7 +274,7 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO)
     glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture);
 
-	unsigned char *data = stbi_load("./texture/texture_3.jpg", &width, &height, &nrChannels, 0);
+	unsigned char *data = stbi_load("./texture/texture_5.jpg", &width, &height, &nrChannels, 0);
 	if (data)
 	{
 	   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
