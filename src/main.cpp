@@ -58,7 +58,7 @@ int width, height, nrChannels;
 
 int main(int, char**)
 {   
-    const char* texture_file = "./texture/texture_2.jpg"; 
+    const char* texture_file = "./texture/texture_3.jpg"; 
     stocastic_texture_synthesis(texture_file);
     rasterizer();
     return 0;
