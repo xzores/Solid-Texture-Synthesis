@@ -531,7 +531,7 @@ CMakeFiles/Project.dir/src/main.cpp.o: \
  /usr/include/opencv4/opencv2/video.hpp \
  /usr/include/opencv4/opencv2/video/tracking.hpp \
  /usr/include/opencv4/opencv2/video/background_segm.hpp \
- /usr/local/include/stb_image.h /usr/include/glm/gtx/rotate_vector.hpp \
+ /usr/include/stb/stb_image.h /usr/include/glm/gtx/rotate_vector.hpp \
  /usr/include/glm/gtx/transform.hpp /usr/include/glm/gtx/transform.inl \
  /usr/include/glm/gtx/rotate_vector.inl \
  /usr/include/glm/gtx/vector_angle.hpp \

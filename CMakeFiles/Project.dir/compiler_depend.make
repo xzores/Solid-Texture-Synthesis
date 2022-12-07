@@ -1232,7 +1232,7 @@ CMakeFiles/Project.dir/src/main.cpp.o: src/main.cpp \
   /usr/include/opencv4/opencv2/video.hpp \
   /usr/include/opencv4/opencv2/video/tracking.hpp \
   /usr/include/opencv4/opencv2/video/background_segm.hpp \
-  /usr/local/include/stb_image.h \
+  /usr/include/stb/stb_image.h \
   /usr/include/glm/gtx/rotate_vector.hpp \
   /usr/include/glm/gtx/transform.hpp \
   /usr/include/glm/gtx/transform.inl \
@@ -1718,7 +1718,7 @@ CMakeFiles/Project.dir/src/utils.cpp.o: src/utils.cpp \
 
 /usr/include/glm/gtx/rotate_vector.hpp:
 
-/usr/local/include/stb_image.h:
+/usr/include/stb/stb_image.h:
 
 /usr/include/opencv4/opencv2/video/tracking.hpp:
 

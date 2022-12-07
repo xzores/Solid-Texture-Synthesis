@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <time.h>
+#include <vector>
 #include <opencv2/opencv.hpp>
 
 using namespace cv;
@@ -26,10 +27,11 @@ double compare(Mat patch1, Mat patch2)
 
 int stocastic_texture_synthesis(const char* texture_file)
 {
+
     Mat3b original_texture, patch, prev_patch;
+
     int rows = 1000;
     int cols = 1000;
-    int kernel_size = 5;
     int random_x, random_y;
     int neighbour_x, neighbour_y;
     bool flag = false;
@@ -47,6 +49,12 @@ int stocastic_texture_synthesis(const char* texture_file)
 
     Mat3b result_texture(rows, cols, Vec3b(0,0,0));
     srand(time(0));
+
+    
+    // imshow("Small Texture", small_texture);
+
+    Mat3b large_texture(rows, cols, Vec3b(0,0,0));
+    vector<Mat3b> patches(rows);
 
     for(int i=0; i<rows; i+=50){
         for(int j=0; j<cols; j+=50){
@@ -76,18 +84,23 @@ int stocastic_texture_synthesis(const char* texture_file)
                 } 
             }
                 
-            // if(i==0) patch.copyTo(result_texture(Rect(i, j-3, patch.cols, patch.rows-3)));
-            // else if(j==0) patch.copyTo(result_texture(Rect(i-3, j, patch.cols-3, patch.rows)));
-            // else patch.copyTo(result_texture(Rect(i-3, j-3, patch.cols-3, patch.rows-3)));
             patch.copyTo(result_texture(Rect(i, j, patch.cols, patch.rows)));
+            patches[j]=patch; 
             imwrite("./texture/output.jpg", result_texture);
             prev_patch = patch;
             flag = true;
         }
     }
 
-    // cout << "Patch Width  = " << patch.size().width << endl << endl;
-    // cout << "Patch height = " << patch.size().height << endl << endl;
+    for(int i=50; i<rows; i+=50){
+        for(int j=50; j<cols; j+=50){
+            patch = result_texture(Range(j-20, j+20), Range(i-20, i+20));
+            GaussianBlur(patch, patch, Size(5,5),0);
+            patch.copyTo(large_texture(Rect(i-20, j-20, patch.cols, patch.rows)));
+        }
+    }
+    
+    GaussianBlur(result_texture, result_texture, Size(3,3),0);
 
     imshow("Result Texture", result_texture);
     imwrite("./texture/output.jpg", result_texture);

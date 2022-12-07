@@ -11,7 +11,7 @@
 
 #define STBI_NO_SIMD
 #define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
+#include <stb/stb_image.h>
 
 #include <glm/vec3.hpp> // glm::vec3
 #include <glm/vec4.hpp> // glm::vec4
@@ -35,7 +35,7 @@
 #include <glm/gtx/string_cast.hpp>
 
 //Globals
-int screen_width = 640, screen_height=640;
+int screen_width = 1000, screen_height=1000;
 GLint vModel_uniform, vView_uniform, vProjection_uniform;
 GLint lpos_world_uniform, eye_normal_uniform;
 glm::mat4 modelT, viewT, projectionT;//The model, view and projection transformations
@@ -53,14 +53,13 @@ glm::vec3 getTrackBallVector(double x, double y);
 
 GLuint nVertices;
 unsigned int texture;
-// int size;
 int width, height, nrChannels;
 
 int main(int, char**)
 {   
-    const char* texture_file = "./texture/texture_3.jpg"; 
-    stocastic_texture_synthesis(texture_file);
-    rasterizer();
+    const char* texture_file = "./texture/texture_1.jpg"; 
+    stocastic_texture_synthesis(texture_file); // Synthesis Texture
+    rasterizer(); // Render Bunny Mesh
     return 0;
 }
 
@@ -72,7 +71,7 @@ void rasterizer(){
     ImVec4 clearColor = ImVec4(0.3f, 0.3f, 0.3f, 1.00f);
 
     unsigned int shaderProgram = createProgram("./shaders/vshader.vs", "./shaders/fshader.fs");
-
+    
     //Get handle to light position variable in shader
     lpos_world_uniform = glGetUniformLocation(shaderProgram, "lpos_world");
     if(lpos_world_uniform == -1){
@@ -137,6 +136,7 @@ void rasterizer(){
             oldX = currentX;
             oldY = currentY;
         }
+        
 
         // bind Texture
         glBindTexture(GL_TEXTURE_2D, texture);
@@ -147,12 +147,6 @@ void rasterizer(){
         ImGui::NewFrame();
 
         glUseProgram(shaderProgram);
-
-        {
-            ImGui::Begin("Information");                          
-            ImGui::Text("%.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-            ImGui::End();
-        }
 
         // Rendering
         ImGui::Render();
@@ -207,37 +201,35 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO)
     }
 
     //Shape data
-    ObjectData  bd;
-    VertexData *vd = parseFrom("./ply/bunnyN.ply");
+    ObjectData  od;
+    VertexData *vd = parseFrom("./ply/bunnyN.ply"); //Load ply file with vertex and normal data
     if (!vd) {
       fprintf(stderr, "Bunny Parse failed.\n");
     }
 
-    bd.totalTriangles = vd->faceCount;
-    bd.totalVertices  = vd->faceCount * 3;
+    od.totalTriangles = vd->faceCount; //Total Triangles
+    od.totalVertices  = vd->faceCount * 3; //Total Vertices
 
-    // GLfloat *expanded_vertices = new GLfloat[bd.totalVertices*3];
-    nVertices = bd.totalVertices*3;
+    // GLfloat *expanded_vertices = new GLfloat[od.totalVertices*3];
+    nVertices = od.totalVertices*3; //Total Vertices for Vertex Buffer
 
-    GLfloat *shape_vertices = new GLfloat[bd.totalVertices*3];
+    GLfloat *shape_vertices = new GLfloat[od.totalVertices*3];
 
-    for(int i=0; i<bd.totalVertices*3; i++) {
-        shape_vertices[i] = expanded_vertices[i]*1.5;
+    for(int i=0; i<od.totalVertices*3; i++) {
+        shape_vertices[i] = expanded_vertices[i]*1.7; //Scale and Load Vertices
     }
 
-    GLfloat *vertex_normals = new GLfloat[bd.totalVertices*3];
+    GLfloat *vertex_normals = new GLfloat[od.totalVertices*3];
 
-    for(int i=0; i<bd.totalVertices*3; i++) {
-        vertex_normals[i] = normals[i];
+    for(int i=0; i<od.totalVertices*3; i++) {
+        vertex_normals[i] = normals[i]; //Load Normals
     }
 
-    GLfloat *vertex_textures = new GLfloat[bd.totalVertices*2];
+    GLfloat *vertex_textures = new GLfloat[od.totalVertices*2];
 
-    for(int i=0; i<bd.totalVertices*2; i+=2) {
-        GLfloat u = 0.5f + atan2(shape_vertices[i], shape_vertices[i+2]) / (2 * 3.14);
-        GLfloat v = 0.5f + asin(shape_vertices[i+1] / 100.0) / 3.14;
-        vertex_textures[i] = 30*cos(2*3.14*i/bd.totalVertices);
-        vertex_textures[i+1] = 30*sin(2*3.14*i/bd.totalVertices);
+    for(int i=0; i<od.totalVertices*2; i+=2) {
+        vertex_textures[i] = 200*cos(2*3.14*i/od.totalVertices); // Texture Coordinates for Spherical Texture Mapping
+        vertex_textures[i+1] = 200*sin(2*3.14*i/od.totalVertices);
         // vertex_textures[i] = shape_vertices[i]*0.1, (shape_vertices[i+1]+shape_vertices[i+2])*0.1;
         // vertex_textures[i+1] = shape_vertices[i+3]*0.1, (shape_vertices[i+4]+shape_vertices[i+5])*0.1;
     }
@@ -250,35 +242,35 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO)
     glBindVertexArray(shape_VAO);
 
     //Create VBOs for the VAO
-    GLuint vertex_VBO;
+    GLuint vertex_VBO; // Vertex Buffer
     glGenBuffers(1, &vertex_VBO);
     glBindBuffer(GL_ARRAY_BUFFER, vertex_VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*bd.totalVertices*3, shape_vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*od.totalVertices*3, shape_vertices, GL_STATIC_DRAW);
     glEnableVertexAttribArray(vVertex_attrib);
     glVertexAttribPointer(vVertex_attrib, 3, GL_FLOAT, GL_FALSE, 00, 0);
     delete []shape_vertices;
 
-    GLuint normal_VBO;
+    GLuint normal_VBO; // Normal Buffer
     glGenBuffers(1, &normal_VBO);
     glBindBuffer(GL_ARRAY_BUFFER, normal_VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*bd.totalVertices*3, vertex_normals, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*od.totalVertices*3, vertex_normals, GL_STATIC_DRAW);
     glEnableVertexAttribArray(vNormal_attrib);
     glVertexAttribPointer(vNormal_attrib, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-    GLuint texture_VBO;
+    GLuint texture_VBO; // Texture Buffer
     glGenBuffers(1, &texture_VBO);
     glBindBuffer(GL_ARRAY_BUFFER, texture_VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*bd.totalVertices*2, vertex_textures, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*od.totalVertices*2, vertex_textures, GL_STATIC_DRAW);
     glEnableVertexAttribArray(vTexture_attrib);
     glVertexAttribPointer(vTexture_attrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
     stbi_set_flip_vertically_on_load(true);
 
-	glGenTextures(1, &texture);
+	glGenTextures(1, &texture); // Activate Texture
     glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture);
 
-	unsigned char *data = stbi_load("./texture/output.jpg", &width, &height, &nrChannels, 0);
+	unsigned char *data = stbi_load("./texture/output.jpg", &width, &height, &nrChannels, 0); // Load Texture
 	if (data)
 	{
 	   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
@@ -328,8 +320,8 @@ void setupModelTransformation(unsigned int &program)
 void setupViewTransformation(unsigned int &program)
 {
     //Viewing transformations (World -> Camera coordinates
-    //Camera at (0, 0, 100) looking down the negative Z-axis in a right handed coordinate system
-    viewT = glm::lookAt(glm::vec3(40.0, -40.0, 40.0), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
+    //Camera at (40, 20, 40)  in a right handed coordinate system
+    viewT = glm::lookAt(glm::vec3(40.0, 20.0, 40.0), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
 
     //Pass-on the viewing matrix to the vertex shader
     glUseProgram(program);
@@ -368,3 +360,4 @@ glm::vec3 getTrackBallVector(double x, double y)
         p = glm::normalize(p); //Nearest point, close to the sides of the trackball
     return p;
 }
+
