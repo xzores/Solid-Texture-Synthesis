@@ -48,7 +48,7 @@ int stocastic_texture_synthesis(const char* texture_file)
     }
     for(int i=0;i<rows-1;i+=53){
         for(int j=0;j<cols;j+=53){
-            
+            GaussianBlur(cv::add(patches[i], patches[i+1], patch, Size(3,3),0);
             patch.copyTo(large_texture(Rect(i, j, patch.cols, patch.rows)));
         }
     }
