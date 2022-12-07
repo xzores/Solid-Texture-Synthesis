@@ -56,7 +56,7 @@ int stocastic_texture_synthesis(const char* texture_file)
             neighbour_y = rand() % (original_texture.size().height);
             
             int count = 1;
-            while(err > 9.3){
+            while(err > 9.8){
                 random_x = neighbour_x - 75 + rand() % 150;
                 random_y = neighbour_y - 75 + rand() % 150;
                 // cout << "Random X = " << random_x << endl << endl;
@@ -76,6 +76,9 @@ int stocastic_texture_synthesis(const char* texture_file)
                 } 
             }
                 
+            // if(i==0) patch.copyTo(result_texture(Rect(i, j-3, patch.cols, patch.rows-3)));
+            // else if(j==0) patch.copyTo(result_texture(Rect(i-3, j, patch.cols-3, patch.rows)));
+            // else patch.copyTo(result_texture(Rect(i-3, j-3, patch.cols-3, patch.rows-3)));
             patch.copyTo(result_texture(Rect(i, j, patch.cols, patch.rows)));
             imwrite("./texture/output.jpg", result_texture);
             prev_patch = patch;
