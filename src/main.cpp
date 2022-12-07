@@ -11,7 +11,7 @@
 
 #define STBI_NO_SIMD
 #define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
+#include <stb/stb_image.h>
 
 #include <glm/vec3.hpp> // glm::vec3
 #include <glm/vec4.hpp> // glm::vec4
@@ -72,7 +72,7 @@ void rasterizer(){
     ImVec4 clearColor = ImVec4(0.3f, 0.3f, 0.3f, 1.00f);
 
     unsigned int shaderProgram = createProgram("./shaders/vshader.vs", "./shaders/fshader.fs");
-
+    
     //Get handle to light position variable in shader
     lpos_world_uniform = glGetUniformLocation(shaderProgram, "lpos_world");
     if(lpos_world_uniform == -1){
@@ -137,6 +137,7 @@ void rasterizer(){
             oldX = currentX;
             oldY = currentY;
         }
+        
 
         // bind Texture
         glBindTexture(GL_TEXTURE_2D, texture);
@@ -222,7 +223,7 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO)
     GLfloat *shape_vertices = new GLfloat[bd.totalVertices*3];
 
     for(int i=0; i<bd.totalVertices*3; i++) {
-        shape_vertices[i] = expanded_vertices[i]*1.5;
+        shape_vertices[i] = expanded_vertices[i]*1.7;
     }
 
     GLfloat *vertex_normals = new GLfloat[bd.totalVertices*3];
@@ -236,8 +237,8 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO)
     for(int i=0; i<bd.totalVertices*2; i+=2) {
         GLfloat u = 0.5f + atan2(shape_vertices[i], shape_vertices[i+2]) / (2 * 3.14);
         GLfloat v = 0.5f + asin(shape_vertices[i+1] / 100.0) / 3.14;
-        vertex_textures[i] = 30*cos(2*3.14*i/bd.totalVertices);
-        vertex_textures[i+1] = 30*sin(2*3.14*i/bd.totalVertices);
+        vertex_textures[i] = 200*cos(2*3.14*i/bd.totalVertices);
+        vertex_textures[i+1] = 200*sin(2*3.14*i/bd.totalVertices);
         // vertex_textures[i] = shape_vertices[i]*0.1, (shape_vertices[i+1]+shape_vertices[i+2])*0.1;
         // vertex_textures[i+1] = shape_vertices[i+3]*0.1, (shape_vertices[i+4]+shape_vertices[i+5])*0.1;
     }
@@ -278,7 +279,7 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO)
     glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture);
 
-	unsigned char *data = stbi_load("./texture/output.jpg", &width, &height, &nrChannels, 0);
+	unsigned char *data = stbi_load("./texture/texture_4.jpg", &width, &height, &nrChannels, 0);
 	if (data)
 	{
 	   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
@@ -328,8 +329,8 @@ void setupModelTransformation(unsigned int &program)
 void setupViewTransformation(unsigned int &program)
 {
     //Viewing transformations (World -> Camera coordinates
-    //Camera at (0, 0, 100) looking down the negative Z-axis in a right handed coordinate system
-    viewT = glm::lookAt(glm::vec3(40.0, -40.0, 40.0), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
+    //Camera at (40, 20, 40)  in a right handed coordinate system
+    viewT = glm::lookAt(glm::vec3(40.0, 20.0, 40.0), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
 
     //Pass-on the viewing matrix to the vertex shader
     glUseProgram(program);
@@ -368,3 +369,4 @@ glm::vec3 getTrackBallVector(double x, double y)
         p = glm::normalize(p); //Nearest point, close to the sides of the trackball
     return p;
 }
+
