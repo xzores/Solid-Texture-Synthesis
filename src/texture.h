@@ -90,7 +90,7 @@ int stocastic_texture_synthesis(const char* texture_file)
         for(int j=50; j<cols; j+=50){
             patch = result_texture(Range(j-20, j+20), Range(i-20, i+20));
             GaussianBlur(patch, patch, Size(5,5),0); // Add Gaussian Blur at seams to improve seamlessness
-            patch.copyTo(large_texture(Rect(i-20, j-20, patch.cols, patch.rows)));
+            patch.copyTo(result_texture(Rect(i-20, j-20, patch.cols, patch.rows)));
         }
     }
     
