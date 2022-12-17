@@ -146,7 +146,11 @@ CMakeFiles/Project.dir/src/main.cpp.o: \
  /usr/include/c++/11/bits/locale_facets.tcc \
  /usr/include/c++/11/bits/basic_ios.tcc \
  /usr/include/c++/11/bits/ostream.tcc /usr/include/c++/11/istream \
- /usr/include/c++/11/bits/istream.tcc \
+ /usr/include/c++/11/bits/istream.tcc /usr/include/c++/11/fstream \
+ /usr/include/c++/11/bits/codecvt.h \
+ /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h \
+ /usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h \
+ /usr/include/c++/11/bits/fstream.tcc \
  /home/vish/Solid-Texture-Synthesis/src/utils.h \
  /home/vish/Solid-Texture-Synthesis/depends/imgui/imgui.h \
  /home/vish/Solid-Texture-Synthesis/depends/imgui/imconfig.h \
@@ -363,7 +367,6 @@ CMakeFiles/Project.dir/src/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h \
  /usr/include/linux/falloc.h /usr/include/x86_64-linux-gnu/bits/stat.h \
  /usr/include/x86_64-linux-gnu/bits/struct_stat.h \
- /home/vish/Solid-Texture-Synthesis/src/bunny.h \
  /home/vish/Solid-Texture-Synthesis/src/texture.h \
  /usr/include/opencv4/opencv2/opencv.hpp \
  /usr/include/opencv4/opencv2/opencv_modules.hpp \
@@ -485,8 +488,7 @@ CMakeFiles/Project.dir/src/main.cpp.o: \
  /usr/include/c++/11/bits/locale_facets_nonio.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/time_members.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/messages_members.h \
- /usr/include/libintl.h /usr/include/c++/11/bits/codecvt.h \
- /usr/include/c++/11/bits/locale_facets_nonio.tcc \
+ /usr/include/libintl.h /usr/include/c++/11/bits/locale_facets_nonio.tcc \
  /usr/include/c++/11/bits/locale_conv.h \
  /usr/include/c++/11/bits/quoted_string.h /usr/include/c++/11/math.h \
  /usr/include/opencv4/opencv2/flann/autotuned_index.h \

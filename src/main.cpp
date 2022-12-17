@@ -5,8 +5,9 @@
 */
 #include <stdio.h>
 #include <iostream>
+#include <fstream>
 #include "utils.h"
-#include "bunny.h"
+// #include "bunny.h"
 #include "texture.h"
 
 #define STBI_NO_SIMD
@@ -50,6 +51,7 @@ void setupModelTransformation(unsigned int &);
 void setupViewTransformation(unsigned int &);
 void setupProjectionTransformation(unsigned int &);
 glm::vec3 getTrackBallVector(double x, double y);
+void dataloader();
 
 GLuint nVertices;
 unsigned int texture;
@@ -57,7 +59,7 @@ int width, height, nrChannels;
 
 int main(int, char**)
 {   
-    const char* texture_file = "./texture/texture_1.jpg"; 
+    const char* texture_file = "./texture/texture_3.jpg"; 
     stocastic_texture_synthesis(texture_file); // Synthesis Texture
     rasterizer(); // Render Bunny Mesh
     return 0;
@@ -175,132 +177,6 @@ void rasterizer(){
     cleanup(window);
 }
 
-void createMeshObject(unsigned int &program, unsigned int &shape_VAO)
-{
-    glUseProgram(program);
-
-    //Bind shader variables
-    int vVertex_attrib = glGetAttribLocation(program, "vVertex");
-    if(vVertex_attrib == -1) {
-        fprintf(stderr, "Could not bind location: vVertex\n");
-        exit(0);
-    }
-
-    int vNormal_attrib = glGetAttribLocation(program, "vertex_norm");
-    if(vNormal_attrib == -1) {
-        std::cout << "Could not bind location: vertex_norm\n" ;
-    }else{
-        std::cout << "aNormal found at location " << vNormal_attrib << std::endl;
-    }
-
-     int vTexture_attrib = glGetAttribLocation(program, "aTexCoord");
-    if(vTexture_attrib == -1) {
-        std::cout << "Could not bind location: aTexCoord\n" ;
-    }else{
-        std::cout << "aTexCoord found at location " << vTexture_attrib << std::endl;
-    }
-
-    //Shape data
-    ObjectData  od;
-    VertexData *vd = parseFrom("./ply/bunnyN.ply"); //Load ply file with vertex and normal data
-    if (!vd) {
-      fprintf(stderr, "Bunny Parse failed.\n");
-    }
-
-    od.totalTriangles = vd->faceCount; //Total Triangles
-    od.totalVertices  = vd->faceCount * 3; //Total Vertices
-
-    // GLfloat *expanded_vertices = new GLfloat[od.totalVertices*3];
-    nVertices = od.totalVertices*3; //Total Vertices for Vertex Buffer
-
-    GLfloat *shape_vertices = new GLfloat[od.totalVertices*3];
-
-    for(int i=0; i<od.totalVertices*3; i++) {
-        shape_vertices[i] = expanded_vertices[i]*1.7; //Scale and Load Vertices
-    }
-
-    GLfloat *vertex_normals = new GLfloat[od.totalVertices*3];
-
-    for(int i=0; i<od.totalVertices*3; i++) {
-        vertex_normals[i] = normals[i]; //Load Normals
-    }
-
-    GLfloat *vertex_textures = new GLfloat[od.totalVertices*2];
-
-    for(int i=0; i<od.totalVertices*2; i+=2) {
-        vertex_textures[i] = 200*cos(2*3.14*i/od.totalVertices); // Texture Coordinates for Spherical Texture Mapping
-        vertex_textures[i+1] = 200*sin(2*3.14*i/od.totalVertices);
-        // vertex_textures[i] = shape_vertices[i]*0.1, (shape_vertices[i+1]+shape_vertices[i+2])*0.1;
-        // vertex_textures[i+1] = shape_vertices[i+3]*0.1, (shape_vertices[i+4]+shape_vertices[i+5])*0.1;
-    }
-
-    //Note: In order to avoid generating an index array for triangles first and then expanding the coordinate array for triangles,
-    // You can directly generate coordinates for successive triangles in two nested for loops to scan over the surface.
-
-    //Generate VAO object
-    glGenVertexArrays(1, &shape_VAO);
-    glBindVertexArray(shape_VAO);
-
-    //Create VBOs for the VAO
-    GLuint vertex_VBO; // Vertex Buffer
-    glGenBuffers(1, &vertex_VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, vertex_VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*od.totalVertices*3, shape_vertices, GL_STATIC_DRAW);
-    glEnableVertexAttribArray(vVertex_attrib);
-    glVertexAttribPointer(vVertex_attrib, 3, GL_FLOAT, GL_FALSE, 00, 0);
-    delete []shape_vertices;
-
-    GLuint normal_VBO; // Normal Buffer
-    glGenBuffers(1, &normal_VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, normal_VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*od.totalVertices*3, vertex_normals, GL_STATIC_DRAW);
-    glEnableVertexAttribArray(vNormal_attrib);
-    glVertexAttribPointer(vNormal_attrib, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-    GLuint texture_VBO; // Texture Buffer
-    glGenBuffers(1, &texture_VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, texture_VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*od.totalVertices*2, vertex_textures, GL_STATIC_DRAW);
-    glEnableVertexAttribArray(vTexture_attrib);
-    glVertexAttribPointer(vTexture_attrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
-
-    stbi_set_flip_vertically_on_load(true);
-
-	glGenTextures(1, &texture); // Activate Texture
-    glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texture);
-
-	unsigned char *data = stbi_load("./texture/output.jpg", &width, &height, &nrChannels, 0); // Load Texture
-	if (data)
-	{
-	   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-	}
-	else
-	{
-	   std::cout << "Failed to load texture" << std::endl;
-	}
-
-	stbi_image_free(data);
-
-    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
-    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
-
-    //Adding the texture generation for sphere map mode
-    glEnable(GL_TEXTURE_GEN_S);
-    glEnable(GL_TEXTURE_GEN_T);
-    glEnable(GL_TEXTURE_GEN_R);
-    glEnable(GL_TEXTURE_GEN_Q);
-
-    glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
-    glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
-    glTexGeni(GL_R, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
-    glTexGeni(GL_Q, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
-
-  
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0); //Unbind the VAO to disable changes outside this function.
-}
-
 void setupModelTransformation(unsigned int &program)
 {
     //Modelling transformations (Model -> World coordinates)
@@ -361,3 +237,187 @@ glm::vec3 getTrackBallVector(double x, double y)
     return p;
 }
 
+void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
+    std::vector< unsigned int > vertexIndices, uvIndices, normalIndices;
+    std::vector< glm::vec3 > temp_vertices;
+    std::vector< glm::vec2 > temp_uvs;
+    std::vector< glm::vec3 > temp_normals;
+    int ct = 0;
+
+    FILE * file = fopen("src/bunny.obj", "r");
+    if( file == NULL ){
+        printf("Impossible to open the file !\n");
+        // return false;
+    }
+
+    while( 1 ){
+
+        char lineHeader[128];
+        // read the first word of the line
+        int res = fscanf(file, "%s", lineHeader);
+        if (res == EOF)
+            break; // EOF = End Of File. Quit the loop.
+
+        if ( strcmp( lineHeader, "v" ) == 0 ){
+            glm::vec3 vertex;
+            fscanf(file, "%f %f %f\n", &vertex.x, &vertex.y, &vertex.z );
+            // printf("%f %f %f\n", vertex.x, vertex.y, vertex.z );
+            temp_vertices.push_back(vertex);
+            ct++;
+        }
+
+        else if ( strcmp( lineHeader, "vt" ) == 0 ){
+            glm::vec2 uv;
+            fscanf(file, "%f %f\n", &uv.x, &uv.y );
+            // printf("%f %f\n", uv.x, uv.y );
+            temp_uvs.push_back(uv);
+        }
+
+        else if ( strcmp( lineHeader, "vn" ) == 0 ){
+            glm::vec3 normal;
+            fscanf(file, "%f %f %f\n", &normal.x, &normal.y, &normal.z );
+            // printf("%f %f %f\n", normal.x, normal.y, normal.z );
+            temp_normals.push_back(normal);
+        }
+
+        else if ( strcmp( lineHeader, "f" ) == 0 ){
+            std::string vertex1, vertex2, vertex3;
+            unsigned int vertexIndex[3], uvIndex[3], normalIndex[3];
+            int matches = fscanf(file, "%d/%d/%d %d/%d/%d %d/%d/%d\n", &vertexIndex[0], &uvIndex[0], &normalIndex[0], &vertexIndex[1], &uvIndex[1], &normalIndex[1], &vertexIndex[2], &uvIndex[2], &normalIndex[2] );
+            if (matches != 9){
+                printf("File can't be read by our simple parser : ( Try exporting with other options\n");
+                // return false;
+            }
+            vertexIndices.push_back(vertexIndex[0]);
+            vertexIndices.push_back(vertexIndex[1]);
+            vertexIndices.push_back(vertexIndex[2]);
+            uvIndices    .push_back(uvIndex[0]);
+            uvIndices    .push_back(uvIndex[1]);
+            uvIndices    .push_back(uvIndex[2]);
+            normalIndices.push_back(normalIndex[0]);
+            normalIndices.push_back(normalIndex[1]);
+            normalIndices.push_back(normalIndex[2]);
+        }
+    }
+    fclose(file);
+
+    glUseProgram(program);
+
+    //Bind shader variables
+    int vVertex_attrib = glGetAttribLocation(program, "vVertex");
+    if(vVertex_attrib == -1) {
+        fprintf(stderr, "Could not bind location: vVertex\n");
+        exit(0);
+    }
+
+    int vNormal_attrib = glGetAttribLocation(program, "vertex_norm");
+    if(vNormal_attrib == -1) {
+        std::cout << "Could not bind location: vertex_norm\n" ;
+    }else{
+        std::cout << "aNormal found at location " << vNormal_attrib << std::endl;
+    }
+
+     int vTexture_attrib = glGetAttribLocation(program, "aTexCoord");
+    if(vTexture_attrib == -1) {
+        std::cout << "Could not bind location: aTexCoord\n" ;
+    }else{
+        std::cout << "aTexCoord found at location " << vTexture_attrib << std::endl;
+    }
+
+    GLfloat *shape_vertices = new GLfloat[vertexIndices.size()*3];
+
+    // // printf("%d \n", ct);
+    // printf("%d \n", vertexIndices.size());
+    nVertices = vertexIndices.size()*3;
+
+    float scale = 0.05;
+
+    for(int i=0; i<vertexIndices.size(); i++){
+        int vertexIndex = vertexIndices[i];
+        shape_vertices[i*3] = temp_vertices[vertexIndex-1][0]*scale;
+        shape_vertices[i*3+1] = temp_vertices[vertexIndex-1][1]*scale;
+        shape_vertices[i*3+2] = temp_vertices[vertexIndex-1][2]*scale;
+    }
+
+    // GLfloat *vertex_normals = new GLfloat[normalIndices.size()*3];
+
+    // for(int i=0; i<normalIndices.size(); i++){
+    //     int normalIndex = normalIndices[i];
+    //     vertex_normals[i*3] = temp_normals[normalIndex-1][0];
+    //     vertex_normals[i*3+1] = temp_normals[normalIndex-1][1];
+    //     vertex_normals[i*3+2] = temp_normals[normalIndex-1][2];
+    // }
+
+    GLfloat *vertex_textures = new GLfloat[uvIndices.size()*2];
+
+    for(int i=0; i<uvIndices.size(); i++ ){
+        vertex_textures[i*2] = temp_uvs[uvIndices[i]-1][0];
+        vertex_textures[i*2+1] = temp_uvs[uvIndices[i]-1][1];
+    }
+
+    //Note: In order to avoid generating an index array for triangles first and then expanding the coordinate array for triangles,
+    // You can directly generate coordinates for successive triangles in two nested for loops to scan over the surface.
+
+    //Generate VAO object
+    glGenVertexArrays(1, &shape_VAO);
+    glBindVertexArray(shape_VAO);
+
+    //Create VBOs for the VAO
+    GLuint vertex_VBO; // Vertex Buffer
+    glGenBuffers(1, &vertex_VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, vertex_VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*vertexIndices.size()*3, shape_vertices, GL_STATIC_DRAW);
+    glEnableVertexAttribArray(vVertex_attrib);
+    glVertexAttribPointer(vVertex_attrib, 3, GL_FLOAT, GL_FALSE, 00, 0);
+    delete []shape_vertices;
+
+    // GLuint normal_VBO; // Normal Buffer
+    // glGenBuffers(1, &normal_VBO);
+    // glBindBuffer(GL_ARRAY_BUFFER, normal_VBO);
+    // glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*vertexIndices.size()*3, vertex_normals, GL_STATIC_DRAW);
+    // glEnableVertexAttribArray(vNormal_attrib);
+    // glVertexAttribPointer(vNormal_attrib, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+    GLuint texture_VBO; // Texture BuffervertexIndices.size()*3;
+    glGenBuffers(1, &texture_VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, texture_VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*vertexIndices.size()*2, vertex_textures, GL_STATIC_DRAW);
+    glEnableVertexAttribArray(vTexture_attrib);
+    glVertexAttribPointer(vTexture_attrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+    stbi_set_flip_vertically_on_load(true);
+
+    glGenTextures(1, &texture); // Activate Texture
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture);
+
+    unsigned char *data = stbi_load("./texture/output.jpg", &width, &height, &nrChannels, 0); // Load Texture
+    if (data)
+    {
+       glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+    }
+    else
+    {
+       std::cout << "Failed to load texture" << std::endl;
+    }
+
+    stbi_image_free(data);
+
+    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+
+    //Adding the texture generation for sphere map mode
+    glEnable(GL_TEXTURE_GEN_S);
+    glEnable(GL_TEXTURE_GEN_T);
+    glEnable(GL_TEXTURE_GEN_R);
+    glEnable(GL_TEXTURE_GEN_Q);
+
+    glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+    glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+    glTexGeni(GL_R, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+    glTexGeni(GL_Q, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+
+  
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0); 
+}
