@@ -51,7 +51,7 @@ void setupModelTransformation(unsigned int &);
 void setupViewTransformation(unsigned int &);
 void setupProjectionTransformation(unsigned int &);
 glm::vec3 getTrackBallVector(double x, double y);
-void dataloader();
+glm::vec3 norm(glm::vec3 a, glm::vec3 b, glm::vec3 c);
 
 GLuint nVertices;
 unsigned int texture;
@@ -59,7 +59,7 @@ int width, height, nrChannels;
 
 int main(int, char**)
 {   
-    const char* texture_file = "./texture/texture_3.jpg"; 
+    const char* texture_file = "./texture/texture_4.jpg"; 
     stocastic_texture_synthesis(texture_file); // Synthesis Texture
     rasterizer(); // Render Bunny Mesh
     return 0;
@@ -237,6 +237,13 @@ glm::vec3 getTrackBallVector(double x, double y)
     return p;
 }
 
+glm::vec3 norm(glm::vec3 a, glm::vec3 b, glm::vec3 c){
+    glm::vec3 ab = a - b;
+    glm::vec3 ac = a - c;
+    glm::vec3 normal = cross(ab, ac);
+    return normalize(normal);
+}
+
 void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
     std::vector< unsigned int > vertexIndices, uvIndices, normalIndices;
     std::vector< glm::vec3 > temp_vertices;
@@ -282,10 +289,10 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
 
         else if ( strcmp( lineHeader, "f" ) == 0 ){
             std::string vertex1, vertex2, vertex3;
-            unsigned int vertexIndex[3], uvIndex[3], normalIndex[3];
+            int vertexIndex[3], uvIndex[3], normalIndex[3];
             int matches = fscanf(file, "%d/%d/%d %d/%d/%d %d/%d/%d\n", &vertexIndex[0], &uvIndex[0], &normalIndex[0], &vertexIndex[1], &uvIndex[1], &normalIndex[1], &vertexIndex[2], &uvIndex[2], &normalIndex[2] );
             if (matches != 9){
-                printf("File can't be read by our simple parser : ( Try exporting with other options\n");
+                printf("File can't be read by our simple parser : ( Try exporting with other options )\n");
                 // return false;
             }
             vertexIndices.push_back(vertexIndex[0]);
@@ -317,7 +324,7 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
         std::cout << "aNormal found at location " << vNormal_attrib << std::endl;
     }
 
-     int vTexture_attrib = glGetAttribLocation(program, "aTexCoord");
+    int vTexture_attrib = glGetAttribLocation(program, "aTexCoord");
     if(vTexture_attrib == -1) {
         std::cout << "Could not bind location: aTexCoord\n" ;
     }else{
@@ -326,8 +333,6 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
 
     GLfloat *shape_vertices = new GLfloat[vertexIndices.size()*3];
 
-    // // printf("%d \n", ct);
-    // printf("%d \n", vertexIndices.size());
     nVertices = vertexIndices.size()*3;
 
     float scale = 0.05;
@@ -339,14 +344,16 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
         shape_vertices[i*3+2] = temp_vertices[vertexIndex-1][2]*scale;
     }
 
-    // GLfloat *vertex_normals = new GLfloat[normalIndices.size()*3];
+    GLfloat *vertex_normals = new GLfloat[normalIndices.size()*3];
 
-    // for(int i=0; i<normalIndices.size(); i++){
-    //     int normalIndex = normalIndices[i];
-    //     vertex_normals[i*3] = temp_normals[normalIndex-1][0];
-    //     vertex_normals[i*3+1] = temp_normals[normalIndex-1][1];
-    //     vertex_normals[i*3+2] = temp_normals[normalIndex-1][2];
-    // }
+    if(temp_normals.size() != 0){
+        for(int i=0; i<normalIndices.size(); i++){
+            int normalIndex = normalIndices[i];
+            vertex_normals[i*3] = temp_normals[normalIndex-1][0];
+            vertex_normals[i*3+1] = temp_normals[normalIndex-1][1];
+            vertex_normals[i*3+2] = temp_normals[normalIndex-1][2];
+        }
+    }
 
     GLfloat *vertex_textures = new GLfloat[uvIndices.size()*2];
 
@@ -371,12 +378,14 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
     glVertexAttribPointer(vVertex_attrib, 3, GL_FLOAT, GL_FALSE, 00, 0);
     delete []shape_vertices;
 
-    // GLuint normal_VBO; // Normal Buffer
-    // glGenBuffers(1, &normal_VBO);
-    // glBindBuffer(GL_ARRAY_BUFFER, normal_VBO);
-    // glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*vertexIndices.size()*3, vertex_normals, GL_STATIC_DRAW);
-    // glEnableVertexAttribArray(vNormal_attrib);
-    // glVertexAttribPointer(vNormal_attrib, 3, GL_FLOAT, GL_FALSE, 0, 0);
+    if(temp_normals.size() != 0){
+        GLuint normal_VBO; // Normal Buffer
+        glGenBuffers(1, &normal_VBO);
+        glBindBuffer(GL_ARRAY_BUFFER, normal_VBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*vertexIndices.size()*3, vertex_normals, GL_STATIC_DRAW);
+        glEnableVertexAttribArray(vNormal_attrib);
+        glVertexAttribPointer(vNormal_attrib, 3, GL_FLOAT, GL_FALSE, 0, 0);
+    }
 
     GLuint texture_VBO; // Texture BuffervertexIndices.size()*3;
     glGenBuffers(1, &texture_VBO);
