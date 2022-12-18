@@ -332,7 +332,6 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
     }
 
     GLfloat *shape_vertices = new GLfloat[vertexIndices.size()*3];
-    GLfloat *vertex_normals = new GLfloat[normalIndices.size()*3];
 
     nVertices = vertexIndices.size()*3;
 
@@ -344,24 +343,7 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
         shape_vertices[i*3+1] = temp_vertices[vertexIndex-1][1]*scale;
         shape_vertices[i*3+2] = temp_vertices[vertexIndex-1][2]*scale;
     }
-  
-    //generated normals for the triangle mesh
-    for(int i=1;i<vertexIndices.size();i+=3){
-        glm::vec3 v1 = glm::vec3(shape_vertices[(i+1)*3]-shape_vertices[i*3], shape_vertices[(i+1)*3+1]-shape_vertices[i*3+1],shape_vertices[(i+1)*3+2]-shape_vertices[i*3+2]);
-	    glm::vec3 v2 = glm::vec3(shape_vertices[(i+2)*3]-shape_vertices[(i+1)*3], shape_vertices[(i+2)*3+1]-shape_vertices[(i+1)*3+1],shape_vertices[(i+2)*3+2]-shape_vertices[(i+1)*3+2]);
-	    glm::vec3 n = glm::normalize(glm::vec3(cross(glm::vec3(v1), glm::vec3(v2))));
-        vertex_normals[i*3] = n.x;
-        vertex_normals[(i+1)*3] = n.x;
-        vertex_normals[(i+2)*3] = n.x;
-        vertex_normals[i*3+1] = n.y;
-        vertex_normals[(i+1)*3+1] = n.y;
-        vertex_normals[(i+2)*3+1] = n.y;
-        vertex_normals[i*3+2] = n.z;
-        vertex_normals[(i+1)*3+2] = n.z;
-        vertex_normals[(i+2)*3+2] = n.z;
-    }
 
-<<<<<<< HEAD
     GLfloat *vertex_normals = new GLfloat[normalIndices.size()*3];
 
     if(temp_normals.size() != 0){
@@ -372,9 +354,6 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
             vertex_normals[i*3+2] = temp_normals[normalIndex-1][2];
         }
     }
-=======
-    
->>>>>>> 42c669ee45057b7de50e78db5d86b53eef2a3ccb
 
     GLfloat *vertex_textures = new GLfloat[uvIndices.size()*2];
 
@@ -383,7 +362,8 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
         vertex_textures[i*2+1] = temp_uvs[uvIndices[i]-1][1];
     }
 
-    
+    //Note: In order to avoid generating an index array for triangles first and then expanding the coordinate array for triangles,
+    // You can directly generate coordinates for successive triangles in two nested for loops to scan over the surface.
 
     //Generate VAO object
     glGenVertexArrays(1, &shape_VAO);
@@ -398,7 +378,6 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
     glVertexAttribPointer(vVertex_attrib, 3, GL_FLOAT, GL_FALSE, 00, 0);
     delete []shape_vertices;
 
-<<<<<<< HEAD
     if(temp_normals.size() != 0){
         GLuint normal_VBO; // Normal Buffer
         glGenBuffers(1, &normal_VBO);
@@ -407,14 +386,6 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
         glEnableVertexAttribArray(vNormal_attrib);
         glVertexAttribPointer(vNormal_attrib, 3, GL_FLOAT, GL_FALSE, 0, 0);
     }
-=======
-    GLuint normal_VBO; // Normal Buffer
-    glGenBuffers(1, &normal_VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, normal_VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*vertexIndices.size()*3, vertex_normals, GL_STATIC_DRAW);
-    glEnableVertexAttribArray(vNormal_attrib);
-    glVertexAttribPointer(vNormal_attrib, 3, GL_FLOAT, GL_FALSE, 0, 0);
->>>>>>> 42c669ee45057b7de50e78db5d86b53eef2a3ccb
 
     GLuint texture_VBO; // Texture BuffervertexIndices.size()*3;
     glGenBuffers(1, &texture_VBO);
