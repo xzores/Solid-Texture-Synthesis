@@ -237,10 +237,8 @@ glm::vec3 getTrackBallVector(double x, double y)
     return p;
 }
 
-glm::vec3 norm(glm::vec3 a, glm::vec3 b, glm::vec3 c){
-    glm::vec3 ab = a - b;
-    glm::vec3 ac = a - c;
-    glm::vec3 normal = cross(ab, ac);
+glm::vec3 norm(glm::vec3 a, glm::vec3 b){
+    glm::vec3 normal = cross(a, b);
     return normalize(normal);
 }
 
@@ -251,21 +249,18 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
     std::vector< glm::vec3 > temp_normals;
     int ct = 0;
 
-    FILE * file = fopen("src/bunny.obj", "r");
-    if( file == NULL ){
-        printf("Impossible to open the file !\n");
-        // return false;
-    }
+    FILE * file = fopen("src/buddha.obj", "r");
+    if( file == NULL ) printf("File not found\n");
 
     while( 1 ){
 
-        char lineHeader[128];
+        char head[128];
         // read the first word of the line
-        int res = fscanf(file, "%s", lineHeader);
+        int res = fscanf(file, "%s", head);
         if (res == EOF)
             break; // EOF = End Of File. Quit the loop.
 
-        if ( strcmp( lineHeader, "v" ) == 0 ){
+        if ( strcmp( head, "v" ) == 0 ){
             glm::vec3 vertex;
             fscanf(file, "%f %f %f\n", &vertex.x, &vertex.y, &vertex.z );
             // printf("%f %f %f\n", vertex.x, vertex.y, vertex.z );
@@ -273,27 +268,26 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
             ct++;
         }
 
-        else if ( strcmp( lineHeader, "vt" ) == 0 ){
+        else if ( strcmp( head, "vt" ) == 0 ){
             glm::vec2 uv;
             fscanf(file, "%f %f\n", &uv.x, &uv.y );
             // printf("%f %f\n", uv.x, uv.y );
             temp_uvs.push_back(uv);
         }
 
-        else if ( strcmp( lineHeader, "vn" ) == 0 ){
+        else if ( strcmp( head, "vn" ) == 0 ){
             glm::vec3 normal;
             fscanf(file, "%f %f %f\n", &normal.x, &normal.y, &normal.z );
             // printf("%f %f %f\n", normal.x, normal.y, normal.z );
             temp_normals.push_back(normal);
         }
 
-        else if ( strcmp( lineHeader, "f" ) == 0 ){
-            std::string vertex1, vertex2, vertex3;
+        else if ( strcmp( head, "f" ) == 0 ){
+            string vertex1, vertex2, vertex3;
             int vertexIndex[3], uvIndex[3], normalIndex[3];
             int matches = fscanf(file, "%d/%d/%d %d/%d/%d %d/%d/%d\n", &vertexIndex[0], &uvIndex[0], &normalIndex[0], &vertexIndex[1], &uvIndex[1], &normalIndex[1], &vertexIndex[2], &uvIndex[2], &normalIndex[2] );
             if (matches != 9){
-                printf("File can't be read by our simple parser : ( Try exporting with other options )\n");
-                // return false;
+                printf("OBJ File may not contain texture coordinates or normal coordinates\n");
             }
             vertexIndices.push_back(vertexIndex[0]);
             vertexIndices.push_back(vertexIndex[1]);
@@ -346,10 +340,12 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
     }
   
     //generated normals for the triangle mesh
-    for(int i=1;i<vertexIndices.size();i+=3){
+    for(int i=0;i<vertexIndices.size();i+=3){
         glm::vec3 v1 = glm::vec3(shape_vertices[(i+1)*3]-shape_vertices[i*3], shape_vertices[(i+1)*3+1]-shape_vertices[i*3+1],shape_vertices[(i+1)*3+2]-shape_vertices[i*3+2]);
 	    glm::vec3 v2 = glm::vec3(shape_vertices[(i+2)*3]-shape_vertices[(i+1)*3], shape_vertices[(i+2)*3+1]-shape_vertices[(i+1)*3+1],shape_vertices[(i+2)*3+2]-shape_vertices[(i+1)*3+2]);
-	    glm::vec3 n = glm::normalize(glm::vec3(cross(glm::vec3(v1), glm::vec3(v2))));
+
+        glm::vec3 n = norm(v1, v2);
+        
         vertex_normals[i*3] = n.x;
         vertex_normals[(i+1)*3] = n.x;
         vertex_normals[(i+2)*3] = n.x;
@@ -361,20 +357,16 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
         vertex_normals[(i+2)*3+2] = n.z;
     }
 
-<<<<<<< HEAD
-    GLfloat *vertex_normals = new GLfloat[normalIndices.size()*3];
+    // GLfloat *vertex_normals = new GLfloat[normalIndices.size()*3];
 
-    if(temp_normals.size() != 0){
-        for(int i=0; i<normalIndices.size(); i++){
-            int normalIndex = normalIndices[i];
-            vertex_normals[i*3] = temp_normals[normalIndex-1][0];
-            vertex_normals[i*3+1] = temp_normals[normalIndex-1][1];
-            vertex_normals[i*3+2] = temp_normals[normalIndex-1][2];
-        }
-    }
-=======
-    
->>>>>>> 42c669ee45057b7de50e78db5d86b53eef2a3ccb
+    // if(temp_normals.size() != 0){
+    //     for(int i=0; i<normalIndices.size(); i++){
+    //         int normalIndex = normalIndices[i];
+    //         vertex_normals[i*3] = temp_normals[normalIndex-1][0];
+    //         vertex_normals[i*3+1] = temp_normals[normalIndex-1][1];
+    //         vertex_normals[i*3+2] = temp_normals[normalIndex-1][2];
+    //     }
+    // }
 
     GLfloat *vertex_textures = new GLfloat[uvIndices.size()*2];
 
@@ -382,8 +374,6 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
         vertex_textures[i*2] = temp_uvs[uvIndices[i]-1][0];
         vertex_textures[i*2+1] = temp_uvs[uvIndices[i]-1][1];
     }
-
-    
 
     //Generate VAO object
     glGenVertexArrays(1, &shape_VAO);
@@ -398,23 +388,13 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
     glVertexAttribPointer(vVertex_attrib, 3, GL_FLOAT, GL_FALSE, 00, 0);
     delete []shape_vertices;
 
-<<<<<<< HEAD
-    if(temp_normals.size() != 0){
-        GLuint normal_VBO; // Normal Buffer
-        glGenBuffers(1, &normal_VBO);
-        glBindBuffer(GL_ARRAY_BUFFER, normal_VBO);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*vertexIndices.size()*3, vertex_normals, GL_STATIC_DRAW);
-        glEnableVertexAttribArray(vNormal_attrib);
-        glVertexAttribPointer(vNormal_attrib, 3, GL_FLOAT, GL_FALSE, 0, 0);
-    }
-=======
     GLuint normal_VBO; // Normal Buffer
     glGenBuffers(1, &normal_VBO);
     glBindBuffer(GL_ARRAY_BUFFER, normal_VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*vertexIndices.size()*3, vertex_normals, GL_STATIC_DRAW);
     glEnableVertexAttribArray(vNormal_attrib);
     glVertexAttribPointer(vNormal_attrib, 3, GL_FLOAT, GL_FALSE, 0, 0);
->>>>>>> 42c669ee45057b7de50e78db5d86b53eef2a3ccb
+    delete []vertex_normals;
 
     GLuint texture_VBO; // Texture BuffervertexIndices.size()*3;
     glGenBuffers(1, &texture_VBO);
@@ -422,6 +402,7 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
     glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*vertexIndices.size()*2, vertex_textures, GL_STATIC_DRAW);
     glEnableVertexAttribArray(vTexture_attrib);
     glVertexAttribPointer(vTexture_attrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
+    delete []vertex_textures;
 
     stbi_set_flip_vertically_on_load(true);
 
@@ -429,7 +410,7 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture);
 
-    unsigned char *data = stbi_load("./texture/output.jpg", &width, &height, &nrChannels, 0); // Load Texture
+    unsigned char *data = stbi_load("./texture/output_xy.jpg", &width, &height, &nrChannels, 0); // Load Texture
     if (data)
     {
        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
