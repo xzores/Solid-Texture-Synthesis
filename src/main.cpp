@@ -378,7 +378,6 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
         vertex_normals[(i+2)*3+2] = n.z;
     }
 
-<<<<<<< HEAD
     // GLfloat *vertex_normals = new GLfloat[normalIndices.size()*3];
 
     // if(temp_normals.size() != 0){
@@ -391,9 +390,6 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
     // }
 
     GLfloat *vertex_textures = new GLfloat[vertexIndices.size()*2];
-=======
-    GLfloat *vertex_textures = new GLfloat[uvIndices.size()*2];
->>>>>>> 1ab6b63c8c72e37708eec38d01a5bdf278cd39f7
 
     for(int i=0; i<uvIndices.size(); i++ ){
         vertex_textures[i*2] = temp_uvs[uvIndices[i]-1][0];
@@ -469,9 +465,9 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
     glEnableVertexAttribArray(vAxis);
     glVertexAttribPointer(vAxis, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-    GLuint xy_texture_VBO; // Texture Buffer
-    glGenBuffers(1, &xy_texture_VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, xy_texture_VBO);
+    GLuint yz_texture_VBO; //  for Normals Roughly along X-Axis
+    glGenBuffers(1, &yz_texture_VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, yz_texture_VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*vertexIndices.size()*2, vertex_textures, GL_STATIC_DRAW);
     glEnableVertexAttribArray(vTexture_attrib1);
     glVertexAttribPointer(vTexture_attrib1, 2, GL_FLOAT, GL_FALSE, 0, 0);
@@ -494,9 +490,9 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
 
     stbi_image_free(data);
 
-    GLuint yz_texture_VBO; // Texture BuffervertexIndices.size()*3;
-    glGenBuffers(1, &yz_texture_VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, yz_texture_VBO);
+    GLuint xz_texture_VBO; // Texture Buffer for Normals Roughly along Y-Axis
+    glGenBuffers(1, &xz_texture_VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, xz_texture_VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*vertexIndices.size()*2, vertex_textures, GL_STATIC_DRAW);
     glEnableVertexAttribArray(vTexture_attrib2);
     glVertexAttribPointer(vTexture_attrib2, 2, GL_FLOAT, GL_FALSE, 0, 0);
@@ -519,9 +515,9 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
 
     stbi_image_free(data);
 
-    GLuint xz_texture_VBO; // Texture BuffervertexIndices.size()*3;
-    glGenBuffers(1, &xz_texture_VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, xz_texture_VBO);
+    GLuint xy_texture_VBO; // Texture Buffer for Normals Roughly along Z-Axis
+    glGenBuffers(1, &xy_texture_VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, xy_texture_VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*vertexIndices.size()*2, vertex_textures, GL_STATIC_DRAW);
     glEnableVertexAttribArray(vTexture_attrib3);
     glVertexAttribPointer(vTexture_attrib3, 2, GL_FLOAT, GL_FALSE, 0, 0);
@@ -533,10 +529,8 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture);
 
-<<<<<<< HEAD
     data = stbi_load("./texture/output_xy.jpg", &width, &height, &nrChannels, 0); // Load Texture
-=======
-    unsigned char *data = stbi_load("./texture/output_xy.jpg", &width, &height, &nrChannels, 0); // Load Texture
+
     /*
     //normal and displacement map
     if(type=="normal")
@@ -545,7 +539,7 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
     else if(type=="displacement"){
         glTexImage2D(GL_TEXTURE_2D,0,GL_RED,width, height, 0, GL_RGBA,GL_UNSIGNED_BYTE, std::byte);
     }*/
->>>>>>> 1ab6b63c8c72e37708eec38d01a5bdf278cd39f7
+
     if (data)
     {
        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);

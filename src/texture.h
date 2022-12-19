@@ -27,7 +27,7 @@ double compare(Mat patch1, Mat patch2)
     return msre;
 }
 
-double match(Mat patch1, Mat patch2)
+double match(Mat patch1, Mat patch2) // Histogram Matching Score
 {   
     Mat hsv_base, hsv_test1, hsv_test2;
     cvtColor( patch1, hsv_base, COLOR_BGR2HSV );
@@ -127,7 +127,7 @@ int stocastic_texture_synthesis(const char* texture_file)
                         patch = original_texture(Range(random_y-25,random_y+25), Range(random_x-25,random_x+25));
                         patch.copyTo(temp_texture(Rect(i, j, patch.cols, patch.rows)));
                         Mat temp = temp_texture(Rect(i, j, patch.cols, patch.rows));
-                        double score = match(original_texture, temp);
+                        double score = match(original_texture, temp); // Get Histogram Matching Score
                         if(score < 0.85) {
                             threshold *= 1.1;
                             continue;
