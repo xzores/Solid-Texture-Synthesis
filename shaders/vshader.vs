@@ -29,7 +29,7 @@ void main() {
     else if(vAxis == vec3(0.0, 1.0, 0.0) || vAxis == vec3(0.0, -1.0, 0.0)){ // Along Y-Axis
         TexCoord = vec2(aTexCoord2);
     }
-    else{ // Along Z-Axis
+    else if(vAxis == vec3(0.0, 0.0, 1.0) || vAxis == vec3(0.0, 0.0, -1.0)){  // Along Z-Axis
         TexCoord = vec2(aTexCoord3);
     }
 }

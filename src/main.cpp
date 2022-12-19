@@ -7,7 +7,6 @@
 #include <iostream>
 #include <fstream>
 #include "utils.h"
-// #include "bunny.h"
 #include "texture.h"
 
 #define STBI_NO_SIMD
@@ -318,6 +317,13 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
         std::cout << "aNormal found at location " << vNormal_attrib << std::endl;
     }
 
+    int vAxis = glGetAttribLocation(program, "vAxis");
+    if(vAxis == -1) {
+        std::cout << "Could not bind location: vAxis\n" ;
+    }else{
+        std::cout << "vAxis found at location " << vAxis << std::endl;
+    }
+
     int vTexture_attrib1 = glGetAttribLocation(program, "aTexCoord1");
     if(vTexture_attrib1 == -1) {
         std::cout << "Could not bind location: aTexCoord1\n" ;
@@ -337,13 +343,6 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
         std::cout << "Could not bind location: aTexCoord3\n" ;
     }else{
         std::cout << "aTexCoord3 found at location " << vTexture_attrib3 << std::endl;
-    }
-
-    int vAxis = glGetAttribLocation(program, "vAxis");
-    if(vAxis == -1) {
-        std::cout << "Could not bind location: vAxis\n" ;
-    }else{
-        std::cout << "vAxis found at location " << vAxis << std::endl;
     }
 
     GLfloat *shape_vertices = new GLfloat[vertexIndices.size()*3];
@@ -531,14 +530,14 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
 
     data = stbi_load("./texture/output_xy.jpg", &width, &height, &nrChannels, 0); // Load Texture
 
-    /*
+    
     //normal and displacement map
-    if(type=="normal")
-        glTexImage2D(GL_TEXTURE_2D,0,GL_RGB,width, height,0,GL_RGBA,GL_UNSIGNED_BYTE, std::byte);
+    // if(type=="normal")
+    //     glTexImage2D(GL_TEXTURE_2D,0,GL_RGB,width, height,0,GL_RGBA,GL_UNSIGNED_BYTE, std::byte);
 
-    else if(type=="displacement"){
-        glTexImage2D(GL_TEXTURE_2D,0,GL_RED,width, height, 0, GL_RGBA,GL_UNSIGNED_BYTE, std::byte);
-    }*/
+    // else if(type=="displacement"){
+    //     glTexImage2D(GL_TEXTURE_2D,0,GL_RED,width, height, 0, GL_RGBA,GL_UNSIGNED_BYTE, std::byte);
+    // }
 
     if (data)
     {

@@ -150,8 +150,8 @@ int stocastic_texture_synthesis(const char* texture_file)
         
     }
     imwrite("./texture/output_xy.jpg", final_textures[0]);
-    imwrite("./texture/output_yz.jpg", final_textures[0]);
-    imwrite("./texture/output_xz.jpg", final_textures[0]);
+    imwrite("./texture/output_yz.jpg", final_textures[1]);
+    imwrite("./texture/output_xz.jpg", final_textures[2]);
     waitKey(0);
     destroyAllWindows();
     return 0;
