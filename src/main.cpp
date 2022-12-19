@@ -160,7 +160,7 @@ void rasterizer(){
 
         glBindVertexArray(VAO); 
 
-        glUniform3f(lpos_world_uniform, -50.0, 100.0, 0.0);
+        glUniform3f(lpos_world_uniform, -50.0, 500.0, 30.0);
         glUniform3f(eye_normal_uniform, 40.0, -40.0, 40.0);
         
         glDrawArrays(GL_TRIANGLES, 0, nVertices);
