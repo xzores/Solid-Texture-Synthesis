@@ -435,6 +435,27 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
         vertex_axis[(i+1)*3+2] = v.z;
         vertex_axis[(i+2)*3+2] = v.z;
     }
+	
+    //computing TBN Matrix
+    /*
+    float inv=1.0/det;
+
+    glm::vec2 t1=vertex_textures[1] - vertex_textures[0];
+    glm::vec2 t2=vertex_textures[2] - vertex_textures[1];
+
+    glm::vec3 v1 = glm::vec3(shape_vertices[(i+1)*3]-shape_vertices[i*3], shape_vertices[(i+1)*3+1]-shape_vertices[i*3+1],shape_vertices[(i+1)*3+2]-shape_vertices[i*3+2]);
+	glm::vec3 v2 = glm::vec3(shape_vertices[(i+2)*3]-shape_vertices[(i+1)*3], shape_vertices[(i+2)*3+1]-shape_vertices[(i+1)*3+1],shape_vertices[(i+2)*3+2]-shape_vertices[(i+1)*3+2]);
+
+    
+    //bitangent
+    vec3 bt = vec3(inv*(-t2.x*v1 + t1.x*v2));
+    //tangent
+    vec3 t = vec3(inv*(t2.y*v1 - t1.y*v2));
+
+    //taking transpose to bring it to the same space
+    mat3 transform=mat3(normalize(t),normalize(bt),normalize(vertex_norm));
+    
+    */
 
     //Generate VAO object
     glGenVertexArrays(1, &shape_VAO);
