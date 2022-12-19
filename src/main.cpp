@@ -59,7 +59,7 @@ int width, height, nrChannels;
 
 int main(int, char**)
 {   
-    const char* texture_file = "./texture/texture_4.jpg"; 
+    const char* texture_file = "./texture/texture_3.jpg"; 
     stocastic_texture_synthesis(texture_file); // Synthesis Texture
     rasterizer(); // Render Bunny Mesh
     return 0;
@@ -318,11 +318,32 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
         std::cout << "aNormal found at location " << vNormal_attrib << std::endl;
     }
 
-    int vTexture_attrib = glGetAttribLocation(program, "aTexCoord");
-    if(vTexture_attrib == -1) {
-        std::cout << "Could not bind location: aTexCoord\n" ;
+    int vTexture_attrib1 = glGetAttribLocation(program, "aTexCoord1");
+    if(vTexture_attrib1 == -1) {
+        std::cout << "Could not bind location: aTexCoord1\n" ;
     }else{
-        std::cout << "aTexCoord found at location " << vTexture_attrib << std::endl;
+        std::cout << "aTexCoord1 found at location " << vTexture_attrib1 << std::endl;
+    }
+
+    int vTexture_attrib2 = glGetAttribLocation(program, "aTexCoord2");
+    if(vTexture_attrib2 == -1) {
+        std::cout << "Could not bind location: aTexCoord2\n" ;
+    }else{
+        std::cout << "aTexCoord2 found at location " << vTexture_attrib2 << std::endl;
+    }
+
+    int vTexture_attrib3 = glGetAttribLocation(program, "aTexCoord3");
+    if(vTexture_attrib3 == -1) {
+        std::cout << "Could not bind location: aTexCoord3\n" ;
+    }else{
+        std::cout << "aTexCoord3 found at location " << vTexture_attrib3 << std::endl;
+    }
+
+    int vAxis = glGetAttribLocation(program, "vAxis");
+    if(vAxis == -1) {
+        std::cout << "Could not bind location: vAxis\n" ;
+    }else{
+        std::cout << "vAxis found at location " << vAxis << std::endl;
     }
 
     GLfloat *shape_vertices = new GLfloat[vertexIndices.size()*3];
@@ -368,11 +389,52 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
     //     }
     // }
 
-    GLfloat *vertex_textures = new GLfloat[uvIndices.size()*2];
+    GLfloat *vertex_textures = new GLfloat[vertexIndices.size()*2];
 
     for(int i=0; i<uvIndices.size(); i++ ){
         vertex_textures[i*2] = temp_uvs[uvIndices[i]-1][0];
         vertex_textures[i*2+1] = temp_uvs[uvIndices[i]-1][1];
+    }
+
+    GLfloat *vertex_axis = new GLfloat[uvIndices.size()*3];
+
+    for(int i=0;i<vertexIndices.size();i+=3){
+
+        glm::vec3 a = glm::vec3(shape_vertices[i*3], shape_vertices[i*3+1], shape_vertices[i*3+2]);
+        glm::vec3 b = glm::vec3(shape_vertices[(i+1)*3], shape_vertices[(i+1)*3+1], shape_vertices[(i+1)*3+2]);
+        glm::vec3 c = glm::vec3(shape_vertices[(i+2)*3], shape_vertices[(i+2)*3+1], shape_vertices[(i+2)*3+2]);
+
+        glm::vec2 uv_a = glm::vec2(vertex_textures[i*2], vertex_textures[i*2+1]);
+        glm::vec2 uv_b = glm::vec2(vertex_textures[(i+1)*2], vertex_textures[(i+1)*2+1]);
+        glm::vec2 uv_c = glm::vec2(vertex_textures[(i+2)*2], vertex_textures[(i+2)*2+1]);
+
+        glm::vec3 n = glm::vec3(vertex_normals[i*3], vertex_normals[i*3+1], vertex_normals[i*3+2]);
+
+        glm::vec3 x = glm::vec3(1,0,0);
+        glm::vec3 y = glm::vec3(0,1,0);
+        glm::vec3 z = glm::vec3(0,0,1);
+
+        glm::vec3 v;
+
+        if ( (n.x >= n.y) && (n.x >= n.z) ) {
+            n.x > 0.0f ? v = x : v = x*-1.0f ; // x code
+        } else if ( (n.y > n.x) && (n.y >= n.z) ) {
+            n.y > 0.0f ? v = y : v = y*-1.0f ; // y code
+        } else if ( (n.z > n.x) && (n.z > n.y) ) {
+            n.z > 0.0f ? v = z : v = z*-1.0f ; // z code
+        } else {
+            v = x; // x code
+        }
+
+        vertex_axis[i*3] = v.x;
+        vertex_axis[(i+1)*3] = v.x;
+        vertex_axis[(i+2)*3] = v.x;
+        vertex_axis[i*3+1] = v.y;
+        vertex_axis[(i+1)*3+1] = v.y;
+        vertex_axis[(i+2)*3+1] = v.y;
+        vertex_axis[i*3+2] = v.z;
+        vertex_axis[(i+1)*3+2] = v.z;
+        vertex_axis[(i+2)*3+2] = v.z;
     }
 
     //Generate VAO object
@@ -396,12 +458,69 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
     glVertexAttribPointer(vNormal_attrib, 3, GL_FLOAT, GL_FALSE, 0, 0);
     delete []vertex_normals;
 
-    GLuint texture_VBO; // Texture BuffervertexIndices.size()*3;
-    glGenBuffers(1, &texture_VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, texture_VBO);
+    GLuint axis_VBO; // Axis Buffer
+    glGenBuffers(1, &axis_VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, axis_VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*vertexIndices.size()*3, vertex_axis, GL_STATIC_DRAW);
+    glEnableVertexAttribArray(vAxis);
+    glVertexAttribPointer(vAxis, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+    GLuint xy_texture_VBO; // Texture Buffer
+    glGenBuffers(1, &xy_texture_VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, xy_texture_VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*vertexIndices.size()*2, vertex_textures, GL_STATIC_DRAW);
-    glEnableVertexAttribArray(vTexture_attrib);
-    glVertexAttribPointer(vTexture_attrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
+    glEnableVertexAttribArray(vTexture_attrib1);
+    glVertexAttribPointer(vTexture_attrib1, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+    stbi_set_flip_vertically_on_load(true);
+
+    glGenTextures(1, &texture); // Activate Texture
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture);
+
+    unsigned char *data = stbi_load("./texture/output_yz.jpg", &width, &height, &nrChannels, 0); // Load Texture
+    if (data)
+    {
+       glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+    }
+    else
+    {
+       std::cout << "Failed to load texture" << std::endl;
+    }
+
+    stbi_image_free(data);
+
+    GLuint yz_texture_VBO; // Texture BuffervertexIndices.size()*3;
+    glGenBuffers(1, &yz_texture_VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, yz_texture_VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*vertexIndices.size()*2, vertex_textures, GL_STATIC_DRAW);
+    glEnableVertexAttribArray(vTexture_attrib2);
+    glVertexAttribPointer(vTexture_attrib2, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+    stbi_set_flip_vertically_on_load(true);
+
+    glGenTextures(1, &texture); // Activate Texture
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture);
+
+    data = stbi_load("./texture/output_xz.jpg", &width, &height, &nrChannels, 0); // Load Texture
+    if (data)
+    {
+       glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+    }
+    else
+    {
+       std::cout << "Failed to load texture" << std::endl;
+    }
+
+    stbi_image_free(data);
+
+    GLuint xz_texture_VBO; // Texture BuffervertexIndices.size()*3;
+    glGenBuffers(1, &xz_texture_VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, xz_texture_VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*vertexIndices.size()*2, vertex_textures, GL_STATIC_DRAW);
+    glEnableVertexAttribArray(vTexture_attrib3);
+    glVertexAttribPointer(vTexture_attrib3, 2, GL_FLOAT, GL_FALSE, 0, 0);
     delete []vertex_textures;
 
     stbi_set_flip_vertically_on_load(true);
@@ -410,7 +529,7 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture);
 
-    unsigned char *data = stbi_load("./texture/output_xy.jpg", &width, &height, &nrChannels, 0); // Load Texture
+    data = stbi_load("./texture/output_xy.jpg", &width, &height, &nrChannels, 0); // Load Texture
     if (data)
     {
        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);

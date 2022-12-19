@@ -2,7 +2,10 @@
 
 in vec3 vVertex;
 in vec3 vertex_norm;
-in vec2 aTexCoord;
+in vec3 vAxis;
+in vec2 aTexCoord1;
+in vec2 aTexCoord2;
+in vec2 aTexCoord3;
 
 uniform mat4 vModel;
 uniform mat4 vView;
@@ -20,5 +23,13 @@ void main() {
 	n = normalize(vertex_norm);
     l = normalize(lpos_world - vVertex);
     e = eye_normal;
-    TexCoord = vec2(aTexCoord);
+    if(vAxis == vec3(1.0, 0.0, 0.0) || vAxis == vec3(-1.0, 0.0, 0.0)){
+        TexCoord = vec2(aTexCoord1);
+    }
+    else if(vAxis == vec3(0.0, 1.0, 0.0) || vAxis == vec3(0.0, -1.0, 0.0)){
+        TexCoord = vec2(aTexCoord2);
+    }
+    else{
+        TexCoord = vec2(aTexCoord3);
+    }
 }
