@@ -59,9 +59,9 @@ int width, height, nrChannels;
 
 int main(int, char**)
 {   
-    const char* texture_file = "./texture/texture_3.jpg"; 
+    const char* texture_file = "./texture/texture_4.jpg"; 
     stocastic_texture_synthesis(texture_file); // Synthesis Texture
-    rasterizer(); // Render Bunny Mesh
+    rasterizer(); // Render Mesh
     return 0;
 }
 
@@ -249,7 +249,7 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
     std::vector< glm::vec3 > temp_normals;
     int ct = 0;
 
-    FILE * file = fopen("src/buddha.obj", "r");
+    FILE * file = fopen("src/bunny.obj", "r");
     if( file == NULL ) printf("File not found\n");
 
     while( 1 ){

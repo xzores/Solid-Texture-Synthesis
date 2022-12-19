@@ -23,13 +23,13 @@ void main() {
 	n = normalize(vertex_norm);
     l = normalize(lpos_world - vVertex);
     e = eye_normal;
-    if(vAxis == vec3(1.0, 0.0, 0.0) || vAxis == vec3(-1.0, 0.0, 0.0)){
+    if(vAxis == vec3(1.0, 0.0, 0.0) || vAxis == vec3(-1.0, 0.0, 0.0)){ // Along X-Axis
         TexCoord = vec2(aTexCoord1);
     }
-    else if(vAxis == vec3(0.0, 1.0, 0.0) || vAxis == vec3(0.0, -1.0, 0.0)){
+    else if(vAxis == vec3(0.0, 1.0, 0.0) || vAxis == vec3(0.0, -1.0, 0.0)){ // Along Y-Axis
         TexCoord = vec2(aTexCoord2);
     }
-    else{
+    else{ // Along Z-Axis
         TexCoord = vec2(aTexCoord3);
     }
 }
