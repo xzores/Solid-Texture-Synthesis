@@ -357,17 +357,6 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
         vertex_normals[(i+2)*3+2] = n.z;
     }
 
-    // GLfloat *vertex_normals = new GLfloat[normalIndices.size()*3];
-
-    // if(temp_normals.size() != 0){
-    //     for(int i=0; i<normalIndices.size(); i++){
-    //         int normalIndex = normalIndices[i];
-    //         vertex_normals[i*3] = temp_normals[normalIndex-1][0];
-    //         vertex_normals[i*3+1] = temp_normals[normalIndex-1][1];
-    //         vertex_normals[i*3+2] = temp_normals[normalIndex-1][2];
-    //     }
-    // }
-
     GLfloat *vertex_textures = new GLfloat[uvIndices.size()*2];
 
     for(int i=0; i<uvIndices.size(); i++ ){
@@ -411,6 +400,14 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
     glBindTexture(GL_TEXTURE_2D, texture);
 
     unsigned char *data = stbi_load("./texture/output_xy.jpg", &width, &height, &nrChannels, 0); // Load Texture
+    /*
+    //normal and displacement map
+    if(type=="normal")
+        glTexImage2D(GL_TEXTURE_2D,0,GL_RGB,width, height,0,GL_RGBA,GL_UNSIGNED_BYTE, std::byte);
+
+    else if(type=="displacement"){
+        glTexImage2D(GL_TEXTURE_2D,0,GL_RED,width, height, 0, GL_RGBA,GL_UNSIGNED_BYTE, std::byte);
+    }*/
     if (data)
     {
        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
