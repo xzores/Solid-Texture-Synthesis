@@ -2,6 +2,7 @@
 
 /*References
   Trackball: http://en.wikibooks.org/wiki/OpenGL_Programming/Modern_OpenGL_Tutorial_Arcball
+  OBJ Loader: http://www.opengl-tutorial.org/beginners-tutorials/tutorial-7-model-loading
 */
 #include <stdio.h>
 #include <iostream>
@@ -242,10 +243,10 @@ glm::vec3 norm(glm::vec3 a, glm::vec3 b){
 }
 
 void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
-    std::vector< unsigned int > vertexIndices, uvIndices, normalIndices;
-    std::vector< glm::vec3 > temp_vertices;
-    std::vector< glm::vec2 > temp_uvs;
-    std::vector< glm::vec3 > temp_normals;
+    vector<int> vertex_indices, uv_indices, normal_indices;
+    vector<glm::vec3> temp_vertices;
+    vector<glm::vec2> temp_uvs;
+    vector<glm::vec3> temp_normals;
     int ct = 0;
 
     FILE * file = fopen("src/bunny.obj", "r");
@@ -288,15 +289,15 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
             if (matches != 9){
                 printf("OBJ File may not contain texture coordinates or normal coordinates\n");
             }
-            vertexIndices.push_back(vertexIndex[0]);
-            vertexIndices.push_back(vertexIndex[1]);
-            vertexIndices.push_back(vertexIndex[2]);
-            uvIndices    .push_back(uvIndex[0]);
-            uvIndices    .push_back(uvIndex[1]);
-            uvIndices    .push_back(uvIndex[2]);
-            normalIndices.push_back(normalIndex[0]);
-            normalIndices.push_back(normalIndex[1]);
-            normalIndices.push_back(normalIndex[2]);
+            vertex_indices.push_back(vertexIndex[0]);
+            vertex_indices.push_back(vertexIndex[1]);
+            vertex_indices.push_back(vertexIndex[2]);
+            uv_indices.push_back(uvIndex[0]);
+            uv_indices.push_back(uvIndex[1]);
+            uv_indices.push_back(uvIndex[2]);
+            normal_indices.push_back(normalIndex[0]);
+            normal_indices.push_back(normalIndex[1]);
+            normal_indices.push_back(normalIndex[2]);
         }
     }
     fclose(file);
@@ -345,22 +346,22 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
         std::cout << "aTexCoord3 found at location " << vTexture_attrib3 << std::endl;
     }
 
-    GLfloat *shape_vertices = new GLfloat[vertexIndices.size()*3];
-    GLfloat *vertex_normals = new GLfloat[normalIndices.size()*3];
+    GLfloat *shape_vertices = new GLfloat[vertex_indices.size()*3];
+    GLfloat *vertex_normals = new GLfloat[normal_indices.size()*3];
 
-    nVertices = vertexIndices.size()*3;
+    nVertices = vertex_indices.size()*3;
 
     float scale = 0.05;
 
-    for(int i=0; i<vertexIndices.size(); i++){
-        int vertexIndex = vertexIndices[i];
+    for(int i=0; i<vertex_indices.size(); i++){
+        int vertexIndex = vertex_indices[i];
         shape_vertices[i*3] = temp_vertices[vertexIndex-1][0]*scale;
         shape_vertices[i*3+1] = temp_vertices[vertexIndex-1][1]*scale;
         shape_vertices[i*3+2] = temp_vertices[vertexIndex-1][2]*scale;
     }
   
     //generated normals for the triangle mesh
-    for(int i=0;i<vertexIndices.size();i+=3){
+    for(int i=0;i<vertex_indices.size();i+=3){
         glm::vec3 v1 = glm::vec3(shape_vertices[(i+1)*3]-shape_vertices[i*3], shape_vertices[(i+1)*3+1]-shape_vertices[i*3+1],shape_vertices[(i+1)*3+2]-shape_vertices[i*3+2]);
 	    glm::vec3 v2 = glm::vec3(shape_vertices[(i+2)*3]-shape_vertices[(i+1)*3], shape_vertices[(i+2)*3+1]-shape_vertices[(i+1)*3+1],shape_vertices[(i+2)*3+2]-shape_vertices[(i+1)*3+2]);
 
@@ -377,27 +378,27 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
         vertex_normals[(i+2)*3+2] = n.z;
     }
 
-    // GLfloat *vertex_normals = new GLfloat[normalIndices.size()*3];
+    // GLfloat *vertex_normals = new GLfloat[normal_indices.size()*3];
 
     // if(temp_normals.size() != 0){
-    //     for(int i=0; i<normalIndices.size(); i++){
-    //         int normalIndex = normalIndices[i];
+    //     for(int i=0; i<normal_indices.size(); i++){
+    //         int normalIndex = normal_indices[i];
     //         vertex_normals[i*3] = temp_normals[normalIndex-1][0];
     //         vertex_normals[i*3+1] = temp_normals[normalIndex-1][1];
     //         vertex_normals[i*3+2] = temp_normals[normalIndex-1][2];
     //     }
     // }
 
-    GLfloat *vertex_textures = new GLfloat[vertexIndices.size()*2];
+    GLfloat *vertex_textures = new GLfloat[vertex_indices.size()*2];
 
-    for(int i=0; i<uvIndices.size(); i++ ){
-        vertex_textures[i*2] = temp_uvs[uvIndices[i]-1][0];
-        vertex_textures[i*2+1] = temp_uvs[uvIndices[i]-1][1];
+    for(int i=0; i<uv_indices.size(); i++ ){
+        vertex_textures[i*2] = temp_uvs[uv_indices[i]-1][0];
+        vertex_textures[i*2+1] = temp_uvs[uv_indices[i]-1][1];
     }
 
-    GLfloat *vertex_axis = new GLfloat[uvIndices.size()*3];
+    GLfloat *vertex_axis = new GLfloat[uv_indices.size()*3];
 
-    for(int i=0;i<vertexIndices.size();i+=3){
+    for(int i=0;i<vertex_indices.size();i+=3){
 
         glm::vec3 a = glm::vec3(shape_vertices[i*3], shape_vertices[i*3+1], shape_vertices[i*3+2]);
         glm::vec3 b = glm::vec3(shape_vertices[(i+1)*3], shape_vertices[(i+1)*3+1], shape_vertices[(i+1)*3+2]);
@@ -465,7 +466,7 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
     GLuint vertex_VBO; // Vertex Buffer
     glGenBuffers(1, &vertex_VBO);
     glBindBuffer(GL_ARRAY_BUFFER, vertex_VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*vertexIndices.size()*3, shape_vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*vertex_indices.size()*3, shape_vertices, GL_STATIC_DRAW);
     glEnableVertexAttribArray(vVertex_attrib);
     glVertexAttribPointer(vVertex_attrib, 3, GL_FLOAT, GL_FALSE, 00, 0);
     delete []shape_vertices;
@@ -473,7 +474,7 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
     GLuint normal_VBO; // Normal Buffer
     glGenBuffers(1, &normal_VBO);
     glBindBuffer(GL_ARRAY_BUFFER, normal_VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*vertexIndices.size()*3, vertex_normals, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*vertex_indices.size()*3, vertex_normals, GL_STATIC_DRAW);
     glEnableVertexAttribArray(vNormal_attrib);
     glVertexAttribPointer(vNormal_attrib, 3, GL_FLOAT, GL_FALSE, 0, 0);
     delete []vertex_normals;
@@ -481,14 +482,14 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
     GLuint axis_VBO; // Axis Buffer
     glGenBuffers(1, &axis_VBO);
     glBindBuffer(GL_ARRAY_BUFFER, axis_VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*vertexIndices.size()*3, vertex_axis, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*vertex_indices.size()*3, vertex_axis, GL_STATIC_DRAW);
     glEnableVertexAttribArray(vAxis);
     glVertexAttribPointer(vAxis, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     GLuint yz_texture_VBO; //  for Normals Roughly along X-Axis
     glGenBuffers(1, &yz_texture_VBO);
     glBindBuffer(GL_ARRAY_BUFFER, yz_texture_VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*vertexIndices.size()*2, vertex_textures, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*vertex_indices.size()*2, vertex_textures, GL_STATIC_DRAW);
     glEnableVertexAttribArray(vTexture_attrib1);
     glVertexAttribPointer(vTexture_attrib1, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
@@ -513,7 +514,7 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
     GLuint xz_texture_VBO; // Texture Buffer for Normals Roughly along Y-Axis
     glGenBuffers(1, &xz_texture_VBO);
     glBindBuffer(GL_ARRAY_BUFFER, xz_texture_VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*vertexIndices.size()*2, vertex_textures, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*vertex_indices.size()*2, vertex_textures, GL_STATIC_DRAW);
     glEnableVertexAttribArray(vTexture_attrib2);
     glVertexAttribPointer(vTexture_attrib2, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
@@ -538,7 +539,7 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
     GLuint xy_texture_VBO; // Texture Buffer for Normals Roughly along Z-Axis
     glGenBuffers(1, &xy_texture_VBO);
     glBindBuffer(GL_ARRAY_BUFFER, xy_texture_VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*vertexIndices.size()*2, vertex_textures, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*vertex_indices.size()*2, vertex_textures, GL_STATIC_DRAW);
     glEnableVertexAttribArray(vTexture_attrib3);
     glVertexAttribPointer(vTexture_attrib3, 2, GL_FLOAT, GL_FALSE, 0, 0);
     delete []vertex_textures;
