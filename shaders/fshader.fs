@@ -16,7 +16,7 @@ vec3 ks = vec3(1.0, 1.0, 1.0);
 vec3 kd = vec3(0.5, 0.6, 0.4);
 vec3 ka = vec3(1.0, 1.0, 1.0);
 
-float spec_exp = 500;
+float spec_exp = 5;
 
 //ambient
 vec3 Ia = ka*La;
@@ -29,9 +29,9 @@ vec3 Id = kd*max(dot(n, l)*Ld, 0.0);
 vec3 v = normalize(e);
 vec3 r = normalize(reflect(-l,n));
 vec3 h = normalize(l+v);
-vec3 Is = ks*Ls*max(pow(dot(r, v), spec_exp),0);
+vec3 Is = ks*Ls*max(pow(dot(h, n), spec_exp),0);
 
-vec3 fColor = Ia + Id;
+vec3 fColor = Ia + Id +Is;
 
 void main(void) {
         outColor = 0.35*vec4(fColor, 1.0) + 0.65*texture(texture1, TexCoord);
