@@ -160,7 +160,7 @@ void rasterizer(){
 
         glBindVertexArray(VAO); 
 
-        glUniform3f(lpos_world_uniform, -50.0, 100.0, 0.0);
+        glUniform3f(lpos_world_uniform, -50.0, 500.0, 30.0);
         glUniform3f(eye_normal_uniform, 40.0, -40.0, 40.0);
         
         glDrawArrays(GL_TRIANGLES, 0, nVertices);
@@ -378,6 +378,7 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
         vertex_normals[(i+2)*3+2] = n.z;
     }
 
+<<<<<<< HEAD
     // GLfloat *vertex_normals = new GLfloat[normalIndices.size()*3];
 
     // if(temp_normals.size() != 0){
@@ -390,6 +391,9 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
     // }
 
     GLfloat *vertex_textures = new GLfloat[vertexIndices.size()*2];
+=======
+    GLfloat *vertex_textures = new GLfloat[uvIndices.size()*2];
+>>>>>>> 1ab6b63c8c72e37708eec38d01a5bdf278cd39f7
 
     for(int i=0; i<uvIndices.size(); i++ ){
         vertex_textures[i*2] = temp_uvs[uvIndices[i]-1][0];
@@ -529,7 +533,19 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO){
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture);
 
+<<<<<<< HEAD
     data = stbi_load("./texture/output_xy.jpg", &width, &height, &nrChannels, 0); // Load Texture
+=======
+    unsigned char *data = stbi_load("./texture/output_xy.jpg", &width, &height, &nrChannels, 0); // Load Texture
+    /*
+    //normal and displacement map
+    if(type=="normal")
+        glTexImage2D(GL_TEXTURE_2D,0,GL_RGB,width, height,0,GL_RGBA,GL_UNSIGNED_BYTE, std::byte);
+
+    else if(type=="displacement"){
+        glTexImage2D(GL_TEXTURE_2D,0,GL_RED,width, height, 0, GL_RGBA,GL_UNSIGNED_BYTE, std::byte);
+    }*/
+>>>>>>> 1ab6b63c8c72e37708eec38d01a5bdf278cd39f7
     if (data)
     {
        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
