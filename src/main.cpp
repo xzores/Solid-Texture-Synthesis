@@ -3,6 +3,7 @@
 /*References
   Trackball: http://en.wikibooks.org/wiki/OpenGL_Programming/Modern_OpenGL_Tutorial_Arcball
   OBJ Loader: http://www.opengl-tutorial.org/beginners-tutorials/tutorial-7-model-loading
+  Histogram Matching: https://docs.opencv.org/3.4/d8/dc8/tutorial_histogram_comparison.html
 */
 #include <stdio.h>
 #include <iostream>

@@ -107,7 +107,7 @@ int stocastic_texture_synthesis(const char* texture_file)
     srand(time(0)); // Make sure to generate new random values each 
 
     vector<Mat3b> patches(rows); //Store Patches
-    int threshold = 9.8;
+    int threshold = 15;
 
     for(int k=0; k<3; k+=1){
         for(int i=0; i<rows; i+=50){
