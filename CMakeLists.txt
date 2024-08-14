@@ -36,3 +36,5 @@ target_include_directories(${TARGET} PRIVATE
 	)
 target_link_libraries(${TARGET} ${OPENGL_LIBRARIES} ${OpenCV_LIBS} glfw GLEW::GLEW)
 
+include_directories(${VCPKG_ROOT}/installed/${VCPKG_DEFAULT_TRIPLET}/include)
+link_directories(${VCPKG_ROOT}/installed/${VCPKG_DEFAULT_TRIPLET}/lib)

@@ -1,0 +1,3 @@
+D:/github/Solid-Texture-Synthesis/Build/CMakeFiles/Project.dir
+D:/github/Solid-Texture-Synthesis/Build/CMakeFiles/ALL_BUILD.dir
+D:/github/Solid-Texture-Synthesis/Build/CMakeFiles/ZERO_CHECK.dir

@@ -43,7 +43,11 @@ using namespace gl;
 #include <GL/glut.h>
 #include <stdbool.h>
 #include <string.h>
-#include <unistd.h>
+#ifdef _WIN32
+	// Windows-specific includes or code
+#else
+	#include <unistd.h>
+#endif
 #include <fcntl.h>
 
 

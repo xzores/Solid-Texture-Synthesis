@@ -121,8 +121,8 @@ int stocastic_texture_synthesis(const char* texture_file)
                 while(err > threshold){
                     random_x = neighbour_x - 75 + rand() % 150; //Select a patch from the neighbourhood
                     random_y = neighbour_y - 75 + rand() % 150;
-                    if((random_x <= 25 or (random_x >= (original_texture.size().width - 25)))
-                        or (random_y <= 25 or (random_y >= (original_texture.size().height - 25)))) continue;
+                    if((random_x <= 25 || (random_x >= (original_texture.size().width - 25)))
+                        || (random_y <= 25 || (random_y >= (original_texture.size().height - 25)))) continue;
                     else{
                         patch = original_texture(Range(random_y-25,random_y+25), Range(random_x-25,random_x+25));
                         patch.copyTo(temp_texture(Rect(i, j, patch.cols, patch.rows)));
